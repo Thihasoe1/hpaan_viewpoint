@@ -1,0 +1,13 @@
+{
+    "dart.previewFlutterUiGuides": true,
+    "editor.formatOnSave": true,
+    "dart.hotReloadOnSave": "manual",
+    "editor.fontFamily": "Dank Mono",
+    "editor.fontLigatures": true,
+    "editor.experimentalInlineEdit.fontFamily": "Fira Code",
+    "editor.inlayHints.fontFamily": "Fira Code",
+    "editor.inlineSuggest.fontFamily": "Fira Code",
+    "debug.console.fontFamily": "DankMono",
+    "scm.inputFontFamily": "DankMono",
+    "markdown.preview.fontFamily": "DankMono"
+}
