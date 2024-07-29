@@ -1,0 +1,132 @@
+{
+    "categories": [
+        {
+            "id": 1,
+            "name": "Pagodas",
+            "count": 10,
+            "icon": "assets/images/pagoda.png",
+            "places": [
+                {
+                    "name": "ဆဒ္ဒန်လိုဏ်ဂူတော်",
+                    "location": "ကရင်ပြည်နယ် ဘားအံမြို့",
+                    "description": "ဆဒ္ဒန်လိုဏ်ဂူဟုခေါ်ခြင်းအကြောင်း \nလိုဏ်ဂူ၏ပတ်၀န်းကျင်တွင် ဧက ၂၀-ခန့်ကျယ်သော အင်းအိုင်ကြီးရှိသည်။ ထိုအင်းအိုင်ကြီး၏ တောင် ဘက်တွင် ထန့်ဘိုင်းနာ့ခေါ် ဆင်ဟိုင်းတောင်နှင့် အင်းကြီးရှိသည်။ ဆဒ္ဒန်ဆင်မင်းပျော်မွေ့ခဲ့သည့် ဆဒ္ဒန် အိုင်ဟု တင်စားကြသည်။ ထူးဆန်းသော သဘာဝကျောက်တုံး၊ ကျောက်ဆောင်၊ ကျောက်ပန်းခက်တို့ရှိ သည်။ ထိုသဘာ၀တရားတို့သည် ဆဒ္ဒန်ဆင်မင်း ဇာတ်၀တ္ထုနှင့် များစွာတူညီသည်ကို အစွဲပြု၍ ဆဒ္ဒန်ဂူ ဟု ခေါ်တွင်ကြသည်",
+                    "imageUrl": "assets/images/kaw_goon_cave.png",
+                    "rating": 4.5,
+                    "reviewCount": 21,
+                    "isOpen": true,
+                    "distance": 46.0,
+                    "lat": 16.875061,
+                    "long": 97.632339
+                },
+                {
+                    "name": "လင်းနို့ဂူ (Bat Cave)",
+                    "location": "ကရင်ပြည်နယ် ဘားအံမြို့",
+                    "description": "လင်းနို့ဂူတဲ့ ဇီဝဗေဒနဲ့သဘာဝကိုချစ်မြတ်နိုးတဲ့သူတွေ အတွက်တော့ တကယ့်အံ့မခန်းစရာနေရာလေးတစ်ခုပါပဲ။ညနေ နေဝင်ချိန်ရောက်တိုင်း ဘီလီယံနဲ့ချီတဲ့ လင်းနို့တွေဟာ ကျောက်တောင်ဂူပေါက်ကနေပျံသန်းထွက်ခွါလာပြီး သံလွင်မြစ်ကြောင်းတစ်လျှောက်မုတ္တမကွေ့အထိ ပင်လယ်ရေသောက်ဆင်းကြပါတယ်။ ဒီလောက်များပြားတဲ့လင်းနို့တွေ ခိုအောင်းပျော်စံရာ ဂူမျိုးကိုအရှေ့တောင်အာရှမှ လာအိုနိုင်ငံမှာတစ်ခု အခုဒီနေရာလေးမှာတစ်ခုသာ တွေ့နိုင်မှာဖြစ်ပါတယ်။ ဘားအံမြို့ခံလူတွေတောင် သိပ်မသိကြပေမယ့် နိုင်ငံတကာကtourists တွေကြားမှာတော့ အလွန်ရေပန်းစားတဲ့နေရာလေး တစ်ခုပဲဖြစ်ပါတယ်။ လင်းနို့တွေကိုစိတ်ဝင်စားတဲ့သူ လင်းနို့တွေကိုလေ့လာတဲ့သူတွေအတွက်သာမက တကယ့်နေဝင်ဆည်းဆာအလှခံစားမှုကိုပါပေးစွမ်းနိုင်တဲ့နေရာလေးဖြစ်ပါတယ်။ ဒီလိုအရှေ့တောင်အာရှမှာနစ်နေရာပဲရှိတဲ့အရာမျိုးကို ကျွန်တော်တို့မြန်မာလူမျိုးတွေ ဒါငါတို့နိုင်ငံကပါလားဆိုပြီး သိသင့်ဂုဏ်ယူသင့်ပါတယ်။ လေ့လာသူတွေ ဇီဝပညာရှင်တွေအနေနဲ့ လဲကွင်းဆက်တွေကိုထိန်းသိမ်းသင့်ပါတယ်။",
+                    "imageUrl": "assets/images/bat_cave.jfif",
+                    "rating": 4.0,
+                    "reviewCount": 34,
+                    "isOpen": true,
+                    "distance": 5.4,
+                    "lat": 16.875061,
+                    "long": 97.632339
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Food & Drinks",
+            "count": 24,
+            "icon": "assets/images/food-and-drink.png",
+            "places": [
+                {
+                    "name": "Linn Thiri (2) Coffee & Bake",
+                    "location": "No. 20, 4 Ward, Kan Nar St, Hpa-An, Myanmar",
+                    "description": "Cafe, Food and Drinks",
+                    "imageUrl": "assets/images/lin_thiri.jpg",
+                    "rating": 4.5,
+                    "reviewCount": 21,
+                    "isOpen": true,
+                    "distance": 46.0,
+                    "lat": 16.875061,
+                    "long": 97.632339
+                },
+                {
+                    "name": "My Hat Bar & Restaurant",
+                    "location": " Kan Nar, Road, Hpa-An 13121, Myanmar",
+                    "description": "Cafe, Food and Drinks",
+                    "imageUrl": "assets/images/my_hat.jpg",
+                    "rating": 4.0,
+                    "reviewCount": 34,
+                    "isOpen": true,
+                    "distance": 5.4,
+                    "lat": 16.875061,
+                    "long": 97.632339
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Hotels",
+            "count": 123,
+            "icon": "assets/images/building.png",
+            "places": [
+                {
+                    "name": "Bellagio",
+                    "location": "ကရင်ပြည်နယ် ဘားအံမြို့",
+                    "description": "Cafe, Food and Drinks",
+                    "imageUrl": "assets/images/kaw_goon_cave.png",
+                    "rating": 4.5,
+                    "reviewCount": 21,
+                    "isOpen": true,
+                    "distance": 46.0,
+                    "lat": 16.875061,
+                    "long": 97.632339
+                },
+                {
+                    "name": "Coffee house",
+                    "location": "ကရင်ပြည်နယ် ဘားအံမြို့",
+                    "description": "Cafe, Food and Drinks",
+                    "imageUrl": "assets/images/kaw_goon_cave.png",
+                    "rating": 4.0,
+                    "reviewCount": 34,
+                    "isOpen": true,
+                    "distance": 5.4,
+                    "lat": 16.875061,
+                    "long": 97.632339
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Shopping",
+            "count": 24,
+            "icon": "assets/images/shopping-cart.png",
+            "places": [
+                {
+                    "name": "Bellagio",
+                    "location": "ကရင်ပြည်နယ် ဘားအံမြို့",
+                    "description": "Cafe, Food and Drinks",
+                    "imageUrl": "https://example.com/image1.jpg",
+                    "rating": 4.5,
+                    "reviewCount": 21,
+                    "isOpen": true,
+                    "distance": 46.0,
+                    "lat": 16.875061,
+                    "long": 97.632339
+                },
+                {
+                    "name": "Coffee house",
+                    "location": "ကရင်ပြည်နယ် ဘားအံမြို့",
+                    "description": "Cafe, Food and Drinks",
+                    "imageUrl": "https://example.com/image2.jpg",
+                    "rating": 4.0,
+                    "reviewCount": 34,
+                    "isOpen": true,
+                    "distance": 5.4,
+                    "lat": 16.875061,
+                    "long": 97.632339
+                }
+            ]
+        }
+    ]
+}

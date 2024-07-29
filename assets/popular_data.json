@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "ရသေ့ပျံဂူ",
+        "address": "ကရင်ပြည်နယ်, ဘားအံမြို့နယ်",
+        "latitude": "16.82442",
+        "longitude": "97.66831",
+        "description": "ရသေ့ပျံဂူသည် ကရင်ပြည်နယ်၊ ဘားအံမြို့နယ်၊ ရသေ့ပျံကျေးရွာအနီး သံလွင်မြစ်၏ အနောက်ဘက်တွင် တည်ရှိသည်။ ပင်လယ်ရေမျက်နှာပြင်ထက် (၁၁၆) ပေခန့်အမြင့်တွင် တည်ရှိသည်။ ",
+        "image": "assets/images/jak.jpg"
+    },
+    {
+        "id": 2,
+        "name": "ရသေ့ပျံဂူ",
+        "address": "ကရင်ပြည်နယ်, ဘားအံမြို့နယ်",
+        "latitude": "16.8119",
+        "longitude": "97.6568",
+        "description": "This is Marker 2",
+        "image": "assets/images/kaw_goon_cave.png"
+    },
+    {
+        "id": 3,
+        "name": "ကော့ဂွန်းဂူ",
+        "address": "ကရင်ပြည်နယ်, ဘားအံမြို့နယ်",
+        "latitude": "16.8084",
+        "longitude": "97.6691",
+        "description": "This is Marker 3",
+        "image": "assets/images/kaw_goon.png"
+    },
+    {
+        "id": 4,
+        "name": "ကော့ဂွန်းဂူ",
+        "address": "ကရင်ပြည်နယ်, ဘားအံမြို့နယ်",
+        "latitude": "34.0522",
+        "longitude": "-118.2437",
+        "description": "This is Marker 4",
+        "image": "assets/images/ya_tae_pyan.png"
+    }
+]

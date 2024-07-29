@@ -1,4 +1,4 @@
-package com.example.hpaan_viewpoint
+package com.thihasoe.hpaan_viewpoint
 
 import io.flutter.embedding.android.FlutterActivity
 

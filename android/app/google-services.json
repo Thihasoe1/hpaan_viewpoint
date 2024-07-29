@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1036774234076",
+    "project_id": "hpaan-viewpoint",
+    "storage_bucket": "hpaan-viewpoint.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036774234076:android:b72ab00063139cd8a22119",
+        "android_client_info": {
+          "package_name": "com.thihasoe.hpaan_viewpoint"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX_VnHdxzBy5UcV_QEkyRowvINnD5iezc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
