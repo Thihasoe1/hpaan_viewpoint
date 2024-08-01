@@ -8,13 +8,15 @@ class CustomText extends StatelessWidget {
     required this.fontSize,
     required this.fontWeight,
     this.color,
+    this.maxLine,
   });
 
   final String text;
   final String fontFamily;
   final double fontSize;
   final FontWeight fontWeight;
-  Color? color;
+  final Color? color;
+  final int? maxLine;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class CustomText extends StatelessWidget {
         color: color ?? const Color.fromARGB(255, 46, 46, 46),
         height: 1.7,
       ),
+      maxLines: maxLine,
       textScaler: const TextScaler.linear(1),
     );
   }

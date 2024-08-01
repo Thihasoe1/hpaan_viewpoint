@@ -3,12 +3,12 @@ class Place {
   final String location;
   final String description;
   final String imageUrl;
-  final double rating;
-  final int reviewCount;
+  final String rating;
+  final String reviewCount;
   final bool isOpen;
-  final double distance;
-  final double lat;
-  final double long;
+  final String distance;
+  final String lat;
+  final String long;
 
   Place({
     required this.name,
@@ -29,12 +29,12 @@ class Place {
       location: json['location'],
       description: json['description'],
       imageUrl: json['imageUrl'],
-      rating: (json['rating'] as num).toDouble(), // Ensure double type
+      rating: (json['rating']), // Ensure double type
       reviewCount: json['reviewCount'],
       isOpen: json['isOpen'],
-      distance: (json['distance'] as num).toDouble(),
-      lat: (json['lat'] as num).toDouble(),
-      long: (json['long'] as num).toDouble(), // Ensure double type
+      distance: (json['distance']),
+      lat: (json['lat']),
+      long: (json['long']), // Ensure double type
     );
   }
 

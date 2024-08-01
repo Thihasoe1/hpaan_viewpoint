@@ -1,11 +1,11 @@
 import 'package:hpaan_viewpoint/model/categories_list_model.dart';
 
 class Category {
-  final int id;
+  final String id;
   final String name;
-  final int count;
+  final String count;
   final String icon;
-  final List<Place> places;
+  final List<dynamic> places;
 
   Category({
     required this.id,
@@ -16,7 +16,7 @@ class Category {
   });
 
   factory Category.fromJson(Map<String, dynamic> json) {
-    var placesFromJson = json['places'] as List;
+    var placesFromJson = json['place'] as List;
     List<Place> placeList =
         placesFromJson.map((place) => Place.fromJson(place)).toList();
 
@@ -35,7 +35,12 @@ class Category {
       'name': name,
       'count': count,
       'icon': icon,
-      'places': places.map((i) => i.toJson()).toList(),
+      'place': places.map((i) => i.toJson()).toList(),
     };
+  }
+
+  @override
+  String toString() {
+    return "category id $id : category name $name";
   }
 }
