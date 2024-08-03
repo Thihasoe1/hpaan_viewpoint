@@ -130,9 +130,13 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
+                  // ListView.builder(
+                  //   itemCount: widget.categoryModel?.places.length,
+                  //   itemBuilder: (context, index) => Text("data"),
+                  // ),
                   // first tab bar view widget
                   ListView.builder(
-                    itemCount: widget.categoryModel?.places.length,
+                    itemCount: widget.categoryModel?.place.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     padding: const EdgeInsets.symmetric(
@@ -140,27 +144,171 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                       vertical: 12,
                     ),
                     itemBuilder: (context, index) {
+
                       return ScaleTapper(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => CardDetail(
-                                singlePlace:
-                                    widget.categoryModel?.places[index],
-                              ),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (_) => CardDetail(
+                          //       singlePlace:
+                          //           widget.categoryModel?.place[index],
+                          //     ),
+                          //   ),
+                          // );
                         },
-                        child: CustomCard(
-                          widget: widget,
-                          index: index,
+                        child: Container(
+                          height: 250,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                          ),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: double.infinity,
+                                height: 130,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                  // child: Image.asset(
+                                  //   "${widget.categoryModel?.places[index].name}",
+                                  //   fit: BoxFit.cover,
+                                  //   alignment: Alignment.center,
+                                  // ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                    ),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey[200]!,
+                                        offset: const Offset(1, 2),
+                                        blurRadius: 5,
+                                        spreadRadius: 2,
+                                      ),
+                                    ],
+                                  ),
+                                  padding: const EdgeInsets.only(
+                                    top: 15,
+                                    left: 16,
+                                    right: 16,
+                                  ),
+                                  width: double.infinity,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      // CustomText(
+                                      //   text: "${widget.categoryModel?.places[index].name}",
+                                      //   fontFamily: "Lato",
+                                      //   fontSize: 16,
+                                      //   fontWeight: FontWeight.w400,
+                                      // ),
+                                      // const SizedBox(
+                                      //   height: 8,
+                                      // ),
+                                      // CustomText(
+                                      //   text: "${widget.categoryModel?.places[index].location}",
+                                      //   fontFamily: "Lato",
+                                      //   fontSize: 13,
+                                      //   fontWeight: FontWeight.w400,
+                                      //   color: Colors.grey,
+                                      // ),
+                                      // const SizedBox(
+                                      //   height: 15,
+                                      // ),
+                                      // Row(
+                                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     Row(
+                                      //       children: [
+                                      //         const Icon(
+                                      //           Icons.reviews_rounded,
+                                      //           size: 15,
+                                      //           color: Colors.teal,
+                                      //         ),
+                                      //         const SizedBox(width: 5),
+                                      //         CustomText(
+                                      //           text:
+                                      //           "${widget.categoryModel?.places[index].reviewCount}",
+                                      //           fontFamily: "Lato",
+                                      //           fontSize: 12,
+                                      //           fontWeight: FontWeight.w400,
+                                      //         ),
+                                      //         const SizedBox(width: 3),
+                                      //         CustomText(
+                                      //           text: "Reviews",
+                                      //           fontFamily: "Lato",
+                                      //           fontSize: 12,
+                                      //           fontWeight: FontWeight.w400,
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //     Row(
+                                      //       children: [
+                                      //         const Icon(
+                                      //           Icons.timer_rounded,
+                                      //           size: 15,
+                                      //           color: Colors.teal,
+                                      //         ),
+                                      //         const SizedBox(width: 5),
+                                      //         CustomText(
+                                      //           text: (widget.categoryModel?.places[index].isOpen ??
+                                      //               false)
+                                      //               ? "isOpen"
+                                      //               : "isClosed",
+                                      //           fontFamily: "Lato",
+                                      //           fontSize: 12,
+                                      //           fontWeight: FontWeight.w400,
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //     Row(
+                                      //       children: [
+                                      //         const Icon(
+                                      //           Icons.location_on_rounded,
+                                      //           size: 15,
+                                      //           color: Colors.teal,
+                                      //         ),
+                                      //         const SizedBox(width: 5),
+                                      //         CustomText(
+                                      //           text:
+                                      //           "${widget.categoryModel?.places[index].distance} km",
+                                      //           fontFamily: "Lato",
+                                      //           fontSize: 12,
+                                      //           fontWeight: FontWeight.w400,
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        // child: CustomCard(
+                        //   widget: widget,
+                        //   index: index,
+                        // ),
                       );
                     },
                   ),
 
-                  // second tab bar viiew widget
+                  // second tab bar view widget
                   Container(
                     width: double.infinity,
                     color: Colors.teal,
@@ -198,160 +346,160 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
   }
 }
 
-class CustomCard extends StatelessWidget {
-  const CustomCard({
-    super.key,
-    required this.widget,
-    required this.index,
-  });
-
-  final CategoryDeailBody widget;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 250,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-      ),
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            height: 130,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-              child: Image.asset(
-                "${widget.categoryModel?.places[index].imageUrl}",
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[200]!,
-                    offset: const Offset(1, 2),
-                    blurRadius: 5,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.only(
-                top: 15,
-                left: 16,
-                right: 16,
-              ),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text: "${widget.categoryModel?.places[index].name}",
-                    fontFamily: "Lato",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  CustomText(
-                    text: "${widget.categoryModel?.places[index].location}",
-                    fontFamily: "Lato",
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.reviews_rounded,
-                            size: 15,
-                            color: Colors.teal,
-                          ),
-                          const SizedBox(width: 5),
-                          CustomText(
-                            text:
-                                "${widget.categoryModel?.places[index].reviewCount}",
-                            fontFamily: "Lato",
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          const SizedBox(width: 3),
-                          CustomText(
-                            text: "Reviews",
-                            fontFamily: "Lato",
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.timer_rounded,
-                            size: 15,
-                            color: Colors.teal,
-                          ),
-                          const SizedBox(width: 5),
-                          CustomText(
-                            text: (widget.categoryModel?.places[index].isOpen ??
-                                    false)
-                                ? "isOpen"
-                                : "isClosed",
-                            fontFamily: "Lato",
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.location_on_rounded,
-                            size: 15,
-                            color: Colors.teal,
-                          ),
-                          const SizedBox(width: 5),
-                          CustomText(
-                            text:
-                                "${widget.categoryModel?.places[index].distance} km",
-                            fontFamily: "Lato",
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class CustomCard extends StatelessWidget {
+//   const CustomCard({
+//     super.key,
+//     required this.widget,
+//     required this.index,
+//   });
+//
+//   final CategoryDeailBody widget;
+//   final int index;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 250,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(20),
+//         color: Colors.white,
+//       ),
+//       margin: const EdgeInsets.symmetric(vertical: 10),
+//       width: MediaQuery.of(context).size.width,
+//       child: Column(
+//         children: [
+//           SizedBox(
+//             width: double.infinity,
+//             height: 130,
+//             child: ClipRRect(
+//               borderRadius: const BorderRadius.only(
+//                 topLeft: Radius.circular(20),
+//                 topRight: Radius.circular(20),
+//               ),
+//               // child: Image.asset(
+//               //   "${widget.categoryModel?.places[index].name}",
+//               //   fit: BoxFit.cover,
+//               //   alignment: Alignment.center,
+//               // ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 borderRadius: const BorderRadius.only(
+//                   bottomLeft: Radius.circular(20),
+//                   bottomRight: Radius.circular(20),
+//                 ),
+//                 color: Colors.white,
+//                 boxShadow: [
+//                   BoxShadow(
+//                     color: Colors.grey[200]!,
+//                     offset: const Offset(1, 2),
+//                     blurRadius: 5,
+//                     spreadRadius: 2,
+//                   ),
+//                 ],
+//               ),
+//               padding: const EdgeInsets.only(
+//                 top: 15,
+//                 left: 16,
+//                 right: 16,
+//               ),
+//               width: double.infinity,
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   CustomText(
+//                     text: "${widget.categoryModel?.places[index].name}",
+//                     fontFamily: "Lato",
+//                     fontSize: 16,
+//                     fontWeight: FontWeight.w400,
+//                   ),
+//                   const SizedBox(
+//                     height: 8,
+//                   ),
+//                   CustomText(
+//                     text: "${widget.categoryModel?.places[index].location}",
+//                     fontFamily: "Lato",
+//                     fontSize: 13,
+//                     fontWeight: FontWeight.w400,
+//                     color: Colors.grey,
+//                   ),
+//                   const SizedBox(
+//                     height: 15,
+//                   ),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Row(
+//                         children: [
+//                           const Icon(
+//                             Icons.reviews_rounded,
+//                             size: 15,
+//                             color: Colors.teal,
+//                           ),
+//                           const SizedBox(width: 5),
+//                           CustomText(
+//                             text:
+//                                 "${widget.categoryModel?.places[index].reviewCount}",
+//                             fontFamily: "Lato",
+//                             fontSize: 12,
+//                             fontWeight: FontWeight.w400,
+//                           ),
+//                           const SizedBox(width: 3),
+//                           CustomText(
+//                             text: "Reviews",
+//                             fontFamily: "Lato",
+//                             fontSize: 12,
+//                             fontWeight: FontWeight.w400,
+//                           ),
+//                         ],
+//                       ),
+//                       Row(
+//                         children: [
+//                           const Icon(
+//                             Icons.timer_rounded,
+//                             size: 15,
+//                             color: Colors.teal,
+//                           ),
+//                           const SizedBox(width: 5),
+//                           CustomText(
+//                             text: (widget.categoryModel?.places[index].isOpen ??
+//                                     false)
+//                                 ? "isOpen"
+//                                 : "isClosed",
+//                             fontFamily: "Lato",
+//                             fontSize: 12,
+//                             fontWeight: FontWeight.w400,
+//                           ),
+//                         ],
+//                       ),
+//                       Row(
+//                         children: [
+//                           const Icon(
+//                             Icons.location_on_rounded,
+//                             size: 15,
+//                             color: Colors.teal,
+//                           ),
+//                           const SizedBox(width: 5),
+//                           CustomText(
+//                             text:
+//                                 "${widget.categoryModel?.places[index].distance} km",
+//                             fontFamily: "Lato",
+//                             fontSize: 12,
+//                             fontWeight: FontWeight.w400,
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

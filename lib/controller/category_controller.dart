@@ -9,7 +9,9 @@ class CategoryController extends GetxController {
   var categoryList = <Category>[];
 
   Future<void> getCategoryList() async {
+
     try {
+
       QuerySnapshot categories = await FirebaseFirestore.instance
           .collection("categories")
           .orderBy("id")
@@ -22,14 +24,15 @@ class CategoryController extends GetxController {
             name: category["name"],
             count: category["count"],
             icon: category["icon"],
-            places: category["place"],
+            place: category["place"],
           ),
         );
       }
-      isLoading = false;
-      update();
+
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }
+    isLoading = false;
+    update();
   }
 }
