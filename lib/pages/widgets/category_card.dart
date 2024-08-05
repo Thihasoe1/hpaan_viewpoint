@@ -17,8 +17,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color:
-        const Color(0xFFC0C0C0).withOpacity(0.15),
+        color: const Color(0xFFC0C0C0).withOpacity(0.15),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -45,12 +44,11 @@ class CategoryCard extends StatelessWidget {
                   left: 4,
                   top: 5,
                 ),
-                width: 35,
-                height: 35,
+                width: 30,
+                height: 30,
                 padding: const EdgeInsets.all(5),
                 child: Image.asset(
-                  categoryController
-                      .categoryList[categoryIndex].icon,
+                  categoryController.categoryList[categoryIndex].icon,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -63,8 +61,7 @@ class CategoryCard extends StatelessWidget {
             ),
             child: SizedBox(
               child: CustomText(
-                text: categoryController
-                    .categoryList[categoryIndex].name,
+                text: categoryController.categoryList[categoryIndex].name,
                 fontFamily: 'Lato',
                 fontSize: 12,
                 fontWeight: FontWeight.w400,

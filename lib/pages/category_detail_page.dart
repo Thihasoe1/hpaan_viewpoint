@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/model/categories_model.dart';
-import 'package:hpaan_viewpoint/pages/card_detail.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -40,6 +37,27 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
 
   @override
   Widget build(BuildContext context) {
+    List<Marker> markers = [];
+    if (widget.categoryModel?.place != null) {
+      markers = widget.categoryModel!.place.map((place) {
+        return Marker(
+          width: 80.0,
+          height: 80.0,
+          point: LatLng(
+            double.tryParse("${place['lat']}") ?? 0.0,
+            double.tryParse("${place['long']}") ?? 0.0,
+          ),
+          child: const SizedBox(
+            child: Icon(
+              Icons.location_on,
+              color: Colors.red,
+              size: 40.0,
+            ),
+          ),
+        );
+      }).toList();
+    }
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -130,11 +148,6 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  // ListView.builder(
-                  //   itemCount: widget.categoryModel?.places.length,
-                  //   itemBuilder: (context, index) => Text("data"),
-                  // ),
-                  // first tab bar view widget
                   ListView.builder(
                     itemCount: widget.categoryModel?.place.length,
                     shrinkWrap: true,
@@ -144,6 +157,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                       vertical: 12,
                     ),
                     itemBuilder: (context, index) {
+                      print("marker lat long ===> ${markers[index].point}");
 
                       return ScaleTapper(
                         onTap: () {
@@ -175,11 +189,11 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                                     topLeft: Radius.circular(20),
                                     topRight: Radius.circular(20),
                                   ),
-                                  // child: Image.asset(
-                                  //   "${widget.categoryModel?.places[index].name}",
-                                  //   fit: BoxFit.cover,
-                                  //   alignment: Alignment.center,
-                                  // ),
+                                  child: Image.asset(
+                                    "${widget.categoryModel?.place[index]['imageUrl']}",
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.center,
+                                  ),
                                 ),
                               ),
                               Expanded(
@@ -201,98 +215,116 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                                     ],
                                   ),
                                   padding: const EdgeInsets.only(
-                                    top: 15,
+                                    top: 8,
                                     left: 16,
                                     right: 16,
                                   ),
-                                  width: double.infinity,
+                                  //width: double.infinity,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      // CustomText(
-                                      //   text: "${widget.categoryModel?.places[index].name}",
-                                      //   fontFamily: "Lato",
-                                      //   fontSize: 16,
-                                      //   fontWeight: FontWeight.w400,
-                                      // ),
-                                      // const SizedBox(
-                                      //   height: 8,
-                                      // ),
-                                      // CustomText(
-                                      //   text: "${widget.categoryModel?.places[index].location}",
-                                      //   fontFamily: "Lato",
-                                      //   fontSize: 13,
-                                      //   fontWeight: FontWeight.w400,
-                                      //   color: Colors.grey,
-                                      // ),
-                                      // const SizedBox(
-                                      //   height: 15,
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     Row(
-                                      //       children: [
-                                      //         const Icon(
-                                      //           Icons.reviews_rounded,
-                                      //           size: 15,
-                                      //           color: Colors.teal,
-                                      //         ),
-                                      //         const SizedBox(width: 5),
-                                      //         CustomText(
-                                      //           text:
-                                      //           "${widget.categoryModel?.places[index].reviewCount}",
-                                      //           fontFamily: "Lato",
-                                      //           fontSize: 12,
-                                      //           fontWeight: FontWeight.w400,
-                                      //         ),
-                                      //         const SizedBox(width: 3),
-                                      //         CustomText(
-                                      //           text: "Reviews",
-                                      //           fontFamily: "Lato",
-                                      //           fontSize: 12,
-                                      //           fontWeight: FontWeight.w400,
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //     Row(
-                                      //       children: [
-                                      //         const Icon(
-                                      //           Icons.timer_rounded,
-                                      //           size: 15,
-                                      //           color: Colors.teal,
-                                      //         ),
-                                      //         const SizedBox(width: 5),
-                                      //         CustomText(
-                                      //           text: (widget.categoryModel?.places[index].isOpen ??
-                                      //               false)
-                                      //               ? "isOpen"
-                                      //               : "isClosed",
-                                      //           fontFamily: "Lato",
-                                      //           fontSize: 12,
-                                      //           fontWeight: FontWeight.w400,
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //     Row(
-                                      //       children: [
-                                      //         const Icon(
-                                      //           Icons.location_on_rounded,
-                                      //           size: 15,
-                                      //           color: Colors.teal,
-                                      //         ),
-                                      //         const SizedBox(width: 5),
-                                      //         CustomText(
-                                      //           text:
-                                      //           "${widget.categoryModel?.places[index].distance} km",
-                                      //           fontFamily: "Lato",
-                                      //           fontSize: 12,
-                                      //           fontWeight: FontWeight.w400,
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //   ],
-                                      // ),
+                                      CustomText(
+                                        text:
+                                            "${widget.categoryModel?.place[index]['name']}",
+                                        fontFamily: "Lato",
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        maxLine: 1,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.location_on_rounded,
+                                            size: 15,
+                                            color: Colors.teal,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Expanded(
+                                            child: CustomText(
+                                              text:
+                                                  "${widget.categoryModel?.place[index]['location']}",
+                                              fontFamily: "Lato",
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.grey,
+                                              maxLine: 2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.reviews_rounded,
+                                                size: 15,
+                                                color: Colors.teal,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              CustomText(
+                                                text:
+                                                    "${widget.categoryModel?.place[index]['reviewCount']}",
+                                                fontFamily: "Lato",
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              const SizedBox(width: 3),
+                                              CustomText(
+                                                text: "Reviews",
+                                                fontFamily: "Lato",
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.timer_rounded,
+                                                size: 15,
+                                                color: Colors.teal,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              CustomText(
+                                                text: (widget.categoryModel
+                                                                ?.place[index]
+                                                            ['isOpen'] ??
+                                                        false)
+                                                    ? "isOpen"
+                                                    : "isClosed",
+                                                fontFamily: "Lato",
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.location_on_rounded,
+                                                size: 15,
+                                                color: Colors.teal,
+                                              ),
+                                              const SizedBox(width: 5),
+                                              CustomText(
+                                                text:
+                                                    "${widget.categoryModel?.place[index]['distance'] ?? ""} km",
+                                                fontFamily: "Lato",
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -309,6 +341,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                   ),
 
                   // second tab bar view widget
+
                   Container(
                     width: double.infinity,
                     color: Colors.teal,
@@ -333,6 +366,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                             ),
                           ],
                         ),
+                        MarkerLayer(markers: markers),
                       ],
                     ),
                   ),
@@ -345,161 +379,3 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
     );
   }
 }
-
-// class CustomCard extends StatelessWidget {
-//   const CustomCard({
-//     super.key,
-//     required this.widget,
-//     required this.index,
-//   });
-//
-//   final CategoryDeailBody widget;
-//   final int index;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 250,
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(20),
-//         color: Colors.white,
-//       ),
-//       margin: const EdgeInsets.symmetric(vertical: 10),
-//       width: MediaQuery.of(context).size.width,
-//       child: Column(
-//         children: [
-//           SizedBox(
-//             width: double.infinity,
-//             height: 130,
-//             child: ClipRRect(
-//               borderRadius: const BorderRadius.only(
-//                 topLeft: Radius.circular(20),
-//                 topRight: Radius.circular(20),
-//               ),
-//               // child: Image.asset(
-//               //   "${widget.categoryModel?.places[index].name}",
-//               //   fit: BoxFit.cover,
-//               //   alignment: Alignment.center,
-//               // ),
-//             ),
-//           ),
-//           Expanded(
-//             flex: 2,
-//             child: Container(
-//               decoration: BoxDecoration(
-//                 borderRadius: const BorderRadius.only(
-//                   bottomLeft: Radius.circular(20),
-//                   bottomRight: Radius.circular(20),
-//                 ),
-//                 color: Colors.white,
-//                 boxShadow: [
-//                   BoxShadow(
-//                     color: Colors.grey[200]!,
-//                     offset: const Offset(1, 2),
-//                     blurRadius: 5,
-//                     spreadRadius: 2,
-//                   ),
-//                 ],
-//               ),
-//               padding: const EdgeInsets.only(
-//                 top: 15,
-//                 left: 16,
-//                 right: 16,
-//               ),
-//               width: double.infinity,
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   CustomText(
-//                     text: "${widget.categoryModel?.places[index].name}",
-//                     fontFamily: "Lato",
-//                     fontSize: 16,
-//                     fontWeight: FontWeight.w400,
-//                   ),
-//                   const SizedBox(
-//                     height: 8,
-//                   ),
-//                   CustomText(
-//                     text: "${widget.categoryModel?.places[index].location}",
-//                     fontFamily: "Lato",
-//                     fontSize: 13,
-//                     fontWeight: FontWeight.w400,
-//                     color: Colors.grey,
-//                   ),
-//                   const SizedBox(
-//                     height: 15,
-//                   ),
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       Row(
-//                         children: [
-//                           const Icon(
-//                             Icons.reviews_rounded,
-//                             size: 15,
-//                             color: Colors.teal,
-//                           ),
-//                           const SizedBox(width: 5),
-//                           CustomText(
-//                             text:
-//                                 "${widget.categoryModel?.places[index].reviewCount}",
-//                             fontFamily: "Lato",
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w400,
-//                           ),
-//                           const SizedBox(width: 3),
-//                           CustomText(
-//                             text: "Reviews",
-//                             fontFamily: "Lato",
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w400,
-//                           ),
-//                         ],
-//                       ),
-//                       Row(
-//                         children: [
-//                           const Icon(
-//                             Icons.timer_rounded,
-//                             size: 15,
-//                             color: Colors.teal,
-//                           ),
-//                           const SizedBox(width: 5),
-//                           CustomText(
-//                             text: (widget.categoryModel?.places[index].isOpen ??
-//                                     false)
-//                                 ? "isOpen"
-//                                 : "isClosed",
-//                             fontFamily: "Lato",
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w400,
-//                           ),
-//                         ],
-//                       ),
-//                       Row(
-//                         children: [
-//                           const Icon(
-//                             Icons.location_on_rounded,
-//                             size: 15,
-//                             color: Colors.teal,
-//                           ),
-//                           const SizedBox(width: 5),
-//                           CustomText(
-//                             text:
-//                                 "${widget.categoryModel?.places[index].distance} km",
-//                             fontFamily: "Lato",
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w400,
-//                           ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

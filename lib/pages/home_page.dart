@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    categoryController.getCategoryList();
   }
 
   @override
@@ -53,8 +54,6 @@ class _HomePageState extends State<HomePage> {
             GetBuilder<CategoryController>(
               init: CategoryController(),
               builder: (GetxController controller) {
-                categoryController.getCategoryList();
-
                 debugPrint(
                     "category list ==> ${categoryController.categoryList}");
                 return categoryController.isLoading
@@ -116,5 +115,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
