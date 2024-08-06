@@ -1,9 +1,15 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/model/categories_model.dart';
+import 'package:hpaan_viewpoint/pages/card_detail.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:http/http.dart' as http;
 
 class CategoryDetailPage extends StatelessWidget {
   const CategoryDetailPage({
@@ -34,6 +40,80 @@ class CategoryDeailBody extends StatefulWidget {
 
 class _CategoryDeailBodyState extends State<CategoryDeailBody> {
   final MapController mapController = MapController();
+
+  late LatLng _currentPosition;
+  bool _loading = true;
+  LatLng _destination = LatLng(16.7907, 96.1590);
+  List<LatLng> _routePoints = [];
+
+  StreamSubscription<Position>? _positionStreamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    LocationSettings locationSettings = const LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 10, // Update every 10 meters
+    );
+
+    _positionStreamSubscription = Geolocator.getPositionStream(
+      locationSettings: locationSettings,
+    ).listen((Position position) {
+      setState(() {
+        _currentPosition = LatLng(position.latitude, position.longitude);
+        _loading = false;
+        _fetchRoute();
+      });
+    });
+  }
+
+  Future<void> _fetchRoute() async {
+    const String accessToken =
+        'pk.eyJ1IjoidGhpaGEwMDciLCJhIjoiY2x6aTNvdjlkMGFnNDJyczF3M2hwNTNtMyJ9.0eagrxIyluOtMX10kb5Pnw'; // Replace with your Mapbox access token
+    final String url =
+        'https://api.mapbox.com/directions/v5/mapbox/driving/${_currentPosition.longitude},${_currentPosition.latitude};${_destination.longitude},${_destination.latitude}?geometries=geojson&access_token=$accessToken';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final route = data['routes'][0]['geometry']['coordinates'];
+      List<LatLng> points = [];
+      for (var point in route) {
+        points.add(LatLng(point[1], point[0]));
+      }
+      setState(() {
+        _routePoints = points;
+      });
+    } else {
+      throw Exception('Failed to load route');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,19 +237,18 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                       vertical: 12,
                     ),
                     itemBuilder: (context, index) {
-                      print("marker lat long ===> ${markers[index].point}");
-
                       return ScaleTapper(
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (_) => CardDetail(
-                          //       singlePlace:
-                          //           widget.categoryModel?.place[index],
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => CardDetail(
+                                singlePlace: widget.categoryModel?.place[index],
+                                marker: markers,
+                                currentPosition: _currentPosition,
+                              ),
+                            ),
+                          );
                         },
                         child: Container(
                           height: 250,
@@ -342,33 +421,74 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
 
                   // second tab bar view widget
 
-                  Container(
+                  SizedBox(
                     width: double.infinity,
-                    color: Colors.teal,
                     height: double.infinity,
-                    child: FlutterMap(
-                      options: const MapOptions(
-                        initialCenter: LatLng(16.875061, 97.632339),
-                        initialZoom: 13,
-                        minZoom: 12,
-                      ),
-                      children: [
-                        TileLayer(
-                          urlTemplate:
-                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          userAgentPackageName: 'com.example.app',
-                        ),
-                        RichAttributionWidget(
-                          attributions: [
-                            TextSourceAttribution(
-                              'OpenStreetMap contributors',
-                              onTap: () {},
+                    child: _loading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.teal,
                             ),
-                          ],
-                        ),
-                        MarkerLayer(markers: markers),
-                      ],
-                    ),
+                          )
+                        : FlutterMap(
+                            options: const MapOptions(
+                              initialCenter: LatLng(16.875061, 97.632339),
+                              initialZoom: 13,
+                              minZoom: 7,
+                            ),
+                            children: [
+                              TileLayer(
+                                urlTemplate:
+                                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                userAgentPackageName: 'com.example.app',
+                              ),
+                              RichAttributionWidget(
+                                attributions: [
+                                  TextSourceAttribution(
+                                    'OpenStreetMap contributors',
+                                    onTap: () {},
+                                  ),
+                                ],
+                              ),
+                              MarkerLayer(
+                                markers: [
+                                  Marker(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    point: _currentPosition,
+                                    child: const SizedBox(
+                                      child: Icon(
+                                        Icons.my_location,
+                                        color: Colors.black,
+                                        size: 25.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Marker(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    point: _destination,
+                                    child: const SizedBox(
+                                      child: Icon(
+                                        Icons.location_on,
+                                        color: Colors.red,
+                                        size: 40.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              PolylineLayer(
+                                polylines: [
+                                  Polyline(
+                                    strokeWidth: 4,
+                                    color: Colors.blue,
+                                    points: _routePoints,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                   ),
                 ],
               ),
