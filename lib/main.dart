@@ -1,19 +1,14 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/binding/controller_binding.dart';
-import 'package:hpaan_viewpoint/pages/bottom_navigation.dart';
+import 'package:hpaan_viewpoint/const/const.dart';
+import 'package:hpaan_viewpoint/controller/auth_controller.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: const FirebaseOptions(
-    apiKey: 'AIzaSyCGOGHMf52jD8BLdB_-EzZoJlrwlPP1OtY',
-    appId: '1:1036774234076:android:b72ab00063139cd8a22119',
-    messagingSenderId: '1036774234076',
-    projectId: 'hpaan-viewpoint',
-    storageBucket: 'hpaan-viewpoint.appspot.com',
-  ));
+  await firebaseInitialization.then((value) {
+    Get.put(AuthController());
+  });
   runApp(const MyApp());
 }
 
@@ -52,7 +47,17 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const BottomNavBar(),
+      home: const Scaffold(
+        body: Center(
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: CircularProgressIndicator(
+              color: Colors.teal,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

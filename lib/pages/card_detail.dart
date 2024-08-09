@@ -1,208 +1,262 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
-import 'package:hpaan_viewpoint/model/categories_list_model.dart';
+import 'package:hpaan_viewpoint/pages/tracking_location_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:http/http.dart' as http;
 
 class CardDetail extends StatefulWidget {
-  const CardDetail(
-      {super.key,
-      required this.singlePlace,
-      required this.marker,
-      required this.currentPosition});
+  const CardDetail({
+    super.key,
+    required this.singlePlace,
+    required this.marker,
+  });
 
   final dynamic singlePlace;
   final List<Marker> marker;
-  final LatLng currentPosition;
 
   @override
   State<CardDetail> createState() => _CardDetailState();
 }
 
 class _CardDetailState extends State<CardDetail> {
+  late LatLng _currentPosition;
+  bool _loading = true;
+  final LatLng _destination = const LatLng(16.7907, 96.1590);
+  List<LatLng> _routePoints = [];
+
+  StreamSubscription<Position>? _positionStreamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    LocationSettings locationSettings = const LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 10, // Update every 10 meters
+    );
+
+    _positionStreamSubscription = Geolocator.getPositionStream(
+      locationSettings: locationSettings,
+    ).listen((Position position) {
+      setState(() {
+        _currentPosition = LatLng(position.latitude, position.longitude);
+        _loading = false;
+        _fetchRoute();
+      });
+    });
+  }
+
+  Future<void> _fetchRoute() async {
+    const String accessToken =
+        'pk.eyJ1IjoidGhpaGEwMDciLCJhIjoiY2x6aTNvdjlkMGFnNDJyczF3M2hwNTNtMyJ9.0eagrxIyluOtMX10kb5Pnw'; // Replace with your Mapbox access token
+    final String url =
+        'https://api.mapbox.com/directions/v5/mapbox/driving/${_currentPosition.longitude},${_currentPosition.latitude};${_destination.longitude},${_destination.latitude}?geometries=geojson&access_token=$accessToken';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final route = data['routes'][0]['geometry']['coordinates'];
+      List<LatLng> points = [];
+      for (var point in route) {
+        points.add(LatLng(point[1], point[0]));
+      }
+      setState(() {
+        _routePoints = points;
+      });
+    } else {
+      throw Exception('Failed to load route');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    //print("this is card detail ==> ${widget.singlePlace}");
-
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
-        appBar: AppBar(
-          centerTitle: true,
-          title: CustomText(
-            text: "${widget.singlePlace['name']}",
-            fontFamily: "Lato",
-            fontSize: 13,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 230,
-              width: double.infinity,
-              child: Image.asset(
-                "${widget.singlePlace['imageUrl']}",
-                fit: BoxFit.cover,
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: CustomText(
+      //     text: "${widget.singlePlace['name']}",
+      //     fontFamily: "Lato",
+      //     fontSize: 13,
+      //     fontWeight: FontWeight.w400,
+      //   ),
+      // ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.4,
+                width: double.infinity,
+                child: Image.asset(
+                  "${widget.singlePlace['imageUrl']}",
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            Container(
-              height: 60,
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: AppBar(
-                backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
-                automaticallyImplyLeading: false,
-                bottom: const TabBar(
-                  physics: NeverScrollableScrollPhysics(),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  labelColor: Colors.teal,
-                  unselectedLabelColor: Colors.grey,
-                  labelStyle: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  indicatorColor: Colors.teal,
-                  tabs: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Tab(
-                          text: "About",
+              Positioned(
+                top: 50,
+                left: 16,
+                child: Row(
+                  children: [
+                    ScaleTapper(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          color: const Color.fromARGB(232, 255, 255, 255),
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Tab(
-                          text: "Review",
+                        width: 40,
+                        height: 40,
+                        child: const Icon(
+                          Icons.keyboard_arrow_left_rounded,
+                          size: 28,
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Tab(
-                          text: "Tracking",
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
               ),
+            ],
+          ),
+          const SizedBox(
+            height: 14,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: CustomText(
+              text: "${widget.singlePlace['name']}",
+              fontFamily: "Pyidaungsu",
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
             ),
-
-            // create widgets for each tab bar here
-            Expanded(
-              child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 15,
-                    ),
-                    child: Column(
-                      children: [
-                        CustomText(
-                          text: "${widget.singlePlace['description']}",
-                          fontFamily: "Lato",
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        const SizedBox(height: 20),
-                        // Container(
-                        //   height: 60,
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(16),
-                        //     color: Colors.green,
-                        //   ),
-                        //   child: Center(
-                        //     child: CustomText(
-                        //       text: "Tracking Location",
-                        //       fontFamily: "Lato",
-                        //       fontSize: 16,
-                        //       fontWeight: FontWeight.w500,
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                  // second tab bar view widget
-                  Container(
-                    color: Colors.amberAccent,
-                  ),
-                  Container(
-                    color: Colors.redAccent,
-                    child: FlutterMap(
-                      options: const MapOptions(
-                        initialCenter: LatLng(16.875061, 97.632339),
-                        initialZoom: 13,
-                        minZoom: 8,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 8,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.location_on_rounded,
+                        color: Colors.teal,
+                        size: 18,
                       ),
-                      children: [
-                        TileLayer(
-                          urlTemplate:
-                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          userAgentPackageName: 'com.example.app',
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: CustomText(
+                          text: "${widget.singlePlace['location']}",
+                          fontFamily: "SF-Pro",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey,
                         ),
-                        RichAttributionWidget(
-                          attributions: [
-                            TextSourceAttribution(
-                              'OpenStreetMap contributors',
-                              onTap: () {},
-                            ),
-                          ],
-                        ),
-                        MarkerLayer(markers: widget.marker),
-                        MarkerLayer(
-                          markers: [
-                            Marker(
-                              width: 80.0,
-                              height: 80.0,
-                              point: widget.currentPosition,
-                              child: const SizedBox(
-                                child: Icon(
-                                  Icons.my_location_rounded,
-                                  color: Colors.blueAccent,
-                                  size: 20.0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        PolylineLayer(
-                          polylines: [
-                            Polyline(
-                              strokeWidth: 2,
-                              color: Colors.black,
-                              points: [
-                                widget.currentPosition,
-                                LatLng(
-                                  double.tryParse(
-                                          "${widget.singlePlace['lat']}") ??
-                                      0.0,
-                                  double.tryParse(
-                                          "${widget.singlePlace['long']}") ??
-                                      0.0,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
+                ScaleTapper(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const TrackingLocationPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(218, 237, 237, 237),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: "Bring me there",
+                            fontFamily: "SF-Pro",
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.teal,
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            CupertinoIcons.location_fill,
+                            color: Colors.teal,
+                            size: 12,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+            child: CustomText(
+              text: "About this point of interest",
+              fontFamily: "SF-Pro",
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: CustomText(
+              text: "${widget.singlePlace['description']}",
+              fontFamily: "Pyidaungsu",
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
       ),
     );
   }
