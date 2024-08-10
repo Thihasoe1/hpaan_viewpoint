@@ -87,67 +87,70 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
             Container(
               height: 60,
               margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: AppBar(
-                backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
-                bottom: TabBar(
-                  physics: const NeverScrollableScrollPhysics(),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  labelColor: Colors.teal,
-                  unselectedLabelColor: Colors.grey,
-                  labelStyle: const TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  indicatorColor: Colors.teal,
-                  tabs: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.list_rounded,
-                          size: 22,
-                        ),
-                        const SizedBox(width: 10),
-                        const Tab(
-                          text: "List",
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Container(
-                          width: 25,
-                          height: 25,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
+              child: MediaQuery(
+                data: const MediaQueryData(textScaler: TextScaler.linear(1),),
+                child: AppBar(
+                  backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
+                  bottom: TabBar(
+                    physics: const NeverScrollableScrollPhysics(),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    labelColor: Colors.teal,
+                    unselectedLabelColor: Colors.grey,
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    indicatorColor: Colors.teal,
+                    tabs: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.list_rounded,
+                            size: 22,
                           ),
-                          child: Center(
-                            child: CustomText(
-                              text: "2",
-                              fontFamily: "Lato",
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.teal,
+                          const SizedBox(width: 10),
+                          const Tab(
+                            text: "List",
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Container(
+                            width: 25,
+                            height: 25,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: CustomText(
+                                text: "2",
+                                fontFamily: "Lato",
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.teal,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.map_rounded,
-                          size: 22,
-                        ),
-                        SizedBox(width: 10),
-                        Tab(
-                          text: "Map",
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.map_rounded,
+                            size: 22,
+                          ),
+                          SizedBox(width: 10),
+                          Tab(
+                            text: "Map",
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

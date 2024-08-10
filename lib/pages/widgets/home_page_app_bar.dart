@@ -80,6 +80,7 @@ class HomePageAppBar extends StatelessWidget {
             top: 120,
             left: 16,
             // right: 16,
+
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.44,
               //color: Colors.teal,

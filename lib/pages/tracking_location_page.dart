@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -9,6 +8,7 @@ import 'package:hpaan_viewpoint/pages/widgets/current_position_animation.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
+import 'dart:math' show cos, sqrt, asin;
 
 class TrackingLocationPage extends StatefulWidget {
   const TrackingLocationPage({
@@ -35,6 +35,7 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
   bool _loading = true;
   late LatLng _destination;
   List<LatLng> _routePoints = [];
+  double distance = 0.0;
 
   ///16.8076, 96.1544
   StreamSubscription<Position>? _positionStreamSubscription;
@@ -43,6 +44,16 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
   void initState() {
     super.initState();
     _getCurrentLocation();
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    const p = 0.017453292519943295; // Pi / 180
+    const c = cos;
+    final a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+
+    return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km
   }
 
   Future<void> _getCurrentLocation() async {
@@ -76,8 +87,10 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
       locationSettings: locationSettings,
     ).listen((Position position) {
       setState(() {
-        _destination = LatLng(widget.lat, widget.long);
+        _destination = LatLng(16.8455, 96.1190);
         _currentPosition = LatLng(position.latitude, position.longitude);
+        // distance = calculateDistance(
+        //     widget.lat, widget.long, position.latitude, position.longitude);
         _loading = false;
         _fetchRoute();
       });
@@ -95,11 +108,14 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final route = data['routes'][0]['geometry']['coordinates'];
+      var distanceResult  = data['routes'][0]['distance'];
+
       List<LatLng> points = [];
       for (var point in route) {
         points.add(LatLng(point[1], point[0]));
       }
       setState(() {
+        distance = distanceResult / 1000;
         _routePoints = points;
       });
     } else {
@@ -149,16 +165,20 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
                       ),
                     ),
                   ),
-                  Marker(
-                    alignment: Alignment.topCenter,
+                  const Marker(
+                    alignment: Alignment.center,
                     width: 80.0,
                     height: 80.0,
-                    point: LatLng(widget.lat, widget.long),
-                    child: const SizedBox(
-                      child: Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 40.0,
+                    //point: LatLng(widget.lat, widget.long),
+                    point: LatLng(16.8455, 96.1190),
+                    child: SizedBox(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 20),
+                        child: Icon(
+                          Icons.location_on_rounded,
+                          color: Colors.red,
+                          size: 30.0,
+                        ),
                       ),
                     ),
                   ),
@@ -236,6 +256,16 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
                   ),
                 ),
               ],
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 50,
+              color: Colors.white,
+              child: Center(child: Text("$distance km"),),
             ),
           ),
         ],
