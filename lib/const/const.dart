@@ -17,3 +17,8 @@ final Future<FirebaseApp> firebaseInitialization = Firebase.initializeApp(
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 GoogleSignIn googleSign = GoogleSignIn();
+
+const String accessToken =
+    'pk.eyJ1IjoidGhpaGEwMDciLCJhIjoiY2x6aTNvdjlkMGFnNDJyczF3M2hwNTNtMyJ9.0eagrxIyluOtMX10kb5Pnw';
+
+const String mapboxStyle = 'mapbox/streets-v11';

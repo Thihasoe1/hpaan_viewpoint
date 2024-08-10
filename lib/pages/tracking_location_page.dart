@@ -10,17 +10,15 @@ import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math' show cos, sqrt, asin;
 
+import '../const/const.dart';
+
 class TrackingLocationPage extends StatefulWidget {
   const TrackingLocationPage({
     super.key,
-    // required this.currentLocation,
-    // required this.routePoints,
     required this.lat,
     required this.long,
   });
 
-  // final LatLng currentLocation;
-  // final List<LatLng> routePoints;
   final double lat;
   final double long;
 
@@ -28,7 +26,8 @@ class TrackingLocationPage extends StatefulWidget {
   State<TrackingLocationPage> createState() => _TrackingLocationPageState();
 }
 
-class _TrackingLocationPageState extends State<TrackingLocationPage> {
+class _TrackingLocationPageState extends State<TrackingLocationPage>
+    with WidgetsBindingObserver {
   MapController controller = MapController();
 
   LatLng _currentPosition = const LatLng(16.8076, 96.1544);
@@ -43,17 +42,25 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
   @override
   void initState() {
     super.initState();
+    debugPrint("init state working");
+    WidgetsBinding.instance.addObserver(this);
     _getCurrentLocation();
   }
 
-  double calculateDistance(lat1, lon1, lat2, lon2) {
-    const p = 0.017453292519943295; // Pi / 180
-    const c = cos;
-    final a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _positionStreamSubscription?.cancel();
+    super.dispose();
+  }
 
-    return 12742 * asin(sqrt(a)); // 2 * R; R = 6371 km
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (_currentPosition != null && _destination != null) {
+        _fetchRoute(_currentPosition, _destination);
+      }
+    }
   }
 
   Future<void> _getCurrentLocation() async {
@@ -87,28 +94,24 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
       locationSettings: locationSettings,
     ).listen((Position position) {
       setState(() {
-        _destination = LatLng(16.8455, 96.1190);
+        _destination = const LatLng(16.8455, 96.1190);
         _currentPosition = LatLng(position.latitude, position.longitude);
-        // distance = calculateDistance(
-        //     widget.lat, widget.long, position.latitude, position.longitude);
         _loading = false;
-        _fetchRoute();
       });
+      _fetchRoute(_currentPosition, _destination);
     });
   }
 
-  Future<void> _fetchRoute() async {
-    const String accessToken =
-        'pk.eyJ1IjoidGhpaGEwMDciLCJhIjoiY2x6aTNvdjlkMGFnNDJyczF3M2hwNTNtMyJ9.0eagrxIyluOtMX10kb5Pnw'; // Replace with your Mapbox access token
+  Future<void> _fetchRoute(LatLng start, LatLng end) async {
     final String url =
-        'https://api.mapbox.com/directions/v5/mapbox/driving/${_currentPosition.longitude},${_currentPosition.latitude};${_destination.longitude},${_destination.latitude}?geometries=geojson&access_token=$accessToken';
+        'https://api.mapbox.com/directions/v5/mapbox/driving/${start.longitude},${start.latitude};${end.longitude},${end.latitude}?geometries=geojson&access_token=$accessToken';
 
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final route = data['routes'][0]['geometry']['coordinates'];
-      var distanceResult  = data['routes'][0]['distance'];
+      var distanceResult = data['routes'][0]['distance'];
 
       List<LatLng> points = [];
       for (var point in route) {
@@ -121,12 +124,6 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
     } else {
       throw Exception('Failed to load route');
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
   }
 
   @override
@@ -143,11 +140,12 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
             ),
             children: [
               TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-                errorImage: const NetworkImage(
-                  'https://via.placeholder.com/256.png?text=Tile+Not+Available',
-                ),
+                urlTemplate:
+                    'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=$accessToken',
+                additionalOptions: const {
+                  'accessToken': accessToken,
+                  'id': mapboxStyle,
+                },
               ),
               MarkerLayer(
                 markers: [
@@ -265,7 +263,9 @@ class _TrackingLocationPageState extends State<TrackingLocationPage> {
             child: Container(
               height: 50,
               color: Colors.white,
-              child: Center(child: Text("$distance km"),),
+              child: Center(
+                child: Text("$distance km"),
+              ),
             ),
           ),
         ],

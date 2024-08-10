@@ -6,6 +6,8 @@ import 'package:hpaan_viewpoint/pages/card_detail.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../const/const.dart';
+
 class CategoryDetailPage extends StatelessWidget {
   const CategoryDetailPage({
     super.key,
@@ -361,11 +363,11 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                       children: [
                         TileLayer(
                           urlTemplate:
-                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          userAgentPackageName: 'com.example.app',
-                          errorImage: const NetworkImage(
-                            'https://via.placeholder.com/256.png?text=Tile+Not+Available',
-                          ),
+                              'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=$accessToken',
+                          additionalOptions: const {
+                            'accessToken': accessToken,
+                            'id': mapboxStyle,
+                          },
                         ),
                         // RichAttributionWidget(
                         //   attributions: [
