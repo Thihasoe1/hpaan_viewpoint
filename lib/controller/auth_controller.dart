@@ -7,7 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hpaan_viewpoint/pages/home_page.dart';
 
 import '../const/const.dart';
-import '../pages/register_page.dart';
+import '../pages/auth/register_page.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -18,7 +18,7 @@ class AuthController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    // auth is comning from the constants.dart file but it is basically FirebaseAuth.instance.
+    // auth is coming from the constants.dart file but it is basically FirebaseAuth.instance.
     // Since we have to use that many times I just made a constant file and declared there
 
     firebaseUser = Rx<User?>(auth.currentUser);
@@ -82,14 +82,18 @@ class AuthController extends GetxController {
   void register(String email, password) async {
     try {
       await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
     } catch (firebaseAuthException) {}
   }
 
   void login(String email, password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (firebaseAuthException) {}
+    } catch (firebaseAuthException) {
+      throw Exception("Login Error");
+    }
   }
 
   void signOut() async {

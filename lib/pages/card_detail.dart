@@ -26,79 +26,7 @@ class CardDetail extends StatefulWidget {
 }
 
 class _CardDetailState extends State<CardDetail> {
-  late LatLng _currentPosition;
-  bool _loading = true;
-  final LatLng _destination = const LatLng(16.7907, 96.1590);
-  List<LatLng> _routePoints = [];
 
-  StreamSubscription<Position>? _positionStreamSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-  }
-
-  Future<void> _getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    LocationSettings locationSettings = const LocationSettings(
-      accuracy: LocationAccuracy.high,
-      distanceFilter: 10, // Update every 10 meters
-    );
-
-    _positionStreamSubscription = Geolocator.getPositionStream(
-      locationSettings: locationSettings,
-    ).listen((Position position) {
-      setState(() {
-        _currentPosition = LatLng(position.latitude, position.longitude);
-        _loading = false;
-        _fetchRoute();
-      });
-    });
-  }
-
-  Future<void> _fetchRoute() async {
-    const String accessToken =
-        'pk.eyJ1IjoidGhpaGEwMDciLCJhIjoiY2x6aTNvdjlkMGFnNDJyczF3M2hwNTNtMyJ9.0eagrxIyluOtMX10kb5Pnw'; // Replace with your Mapbox access token
-    final String url =
-        'https://api.mapbox.com/directions/v5/mapbox/driving/${_currentPosition.longitude},${_currentPosition.latitude};${_destination.longitude},${_destination.latitude}?geometries=geojson&access_token=$accessToken';
-
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final route = data['routes'][0]['geometry']['coordinates'];
-      List<LatLng> points = [];
-      for (var point in route) {
-        points.add(LatLng(point[1], point[0]));
-      }
-      setState(() {
-        _routePoints = points;
-      });
-    } else {
-      throw Exception('Failed to load route');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +126,16 @@ class _CardDetailState extends State<CardDetail> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => const TrackingLocationPage(),
+                        builder: (_) => TrackingLocationPage(
+                          // currentLocation: _currentPosition,
+                          // routePoints: _routePoints,
+                          lat:
+                              double.tryParse("${widget.singlePlace['lat']}") ??
+                                  0.2,
+                          long: double.tryParse(
+                                  "${widget.singlePlace['long']}") ??
+                              0.2,
+                        ),
                       ),
                     );
                   },
