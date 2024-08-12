@@ -1,19 +1,27 @@
 // ignore_for_file: invalid_return_type_for_catch_error
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hpaan_viewpoint/pages/auth/login_page.dart';
 import 'package:hpaan_viewpoint/pages/home_page.dart';
 
 import '../const/const.dart';
-import '../pages/auth/register_page.dart';
+import '../pages/bottom_navigation.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> firebaseUser;
 
   late Rx<GoogleSignInAccount?> googleSignInAccount;
+
+  var isLoading = false.obs;
+
+  void setLoading(bool value) {
+    isLoading.value = value;
+  }
 
   @override
   void onReady() {
@@ -34,10 +42,10 @@ class AuthController extends GetxController {
   _setInitialScreen(User? user) {
     if (user == null) {
       // if the user is not found then the user is navigated to the Register Screen
-      Get.offAll(() => const RegisterPage());
+      Get.offAll(() => const LoginPage());
     } else {
       // if the user exists and logged in the the user is navigated to the Home Screen
-      Get.offAll(() => const HomePage());
+      Get.offAll(() => const BottomNavBar());
     }
   }
 
@@ -45,10 +53,10 @@ class AuthController extends GetxController {
     debugPrint("$googleSignInAccount");
     if (googleSignInAccount == null) {
       // if the user is not found then the user is navigated to the Register Screen
-      Get.offAll(() => const RegisterPage());
+      Get.offAll(() => const LoginPage());
     } else {
       // if the user exists and logged in the the user is navigated to the Home Screen
-      Get.offAll(() => const HomePage());
+      Get.offAll(() => const BottomNavBar());
     }
   }
 
@@ -79,20 +87,51 @@ class AuthController extends GetxController {
     }
   }
 
-  void register(String email, password) async {
+  void register(String email, password, username) async {
     try {
-      await auth.createUserWithEmailAndPassword(
+      setLoading(true);
+      UserCredential? userCredential =
+          await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-    } catch (firebaseAuthException) {}
+
+      createUserDocument(userCredential, username);
+    } on FirebaseAuthException catch (error) {
+      Get.snackbar("Something wrong", error.toString());
+    } catch (firebaseAuthException) {
+      Get.snackbar("Error", firebaseAuthException.toString());
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  Future<void> createUserDocument(
+      UserCredential? userCredential, String userName) async {
+    if (userCredential != null && userCredential.user != null) {
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(userCredential.user!.email)
+          .set({
+        'email': userCredential.user!.email,
+        'name': userName,
+      });
+    }
   }
 
   void login(String email, password) async {
     try {
+      setLoading(true);
       await auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (firebaseAuthException) {
-      throw Exception("Login Error");
+    } on FirebaseAuthException catch (error) {
+      Get.snackbar(
+          "Invalid email and password", "Please create account first!");
+      debugPrint(error.toString());
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+      //throw Exception("Login Error");
+    } finally {
+      setLoading(false);
     }
   }
 

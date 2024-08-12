@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/model/categories_model.dart';
 
@@ -9,9 +8,7 @@ class CategoryController extends GetxController {
   var categoryList = <Category>[];
 
   Future<void> getCategoryList() async {
-
     try {
-
       QuerySnapshot categories = await FirebaseFirestore.instance
           .collection("categories")
           .orderBy("id")
@@ -28,7 +25,6 @@ class CategoryController extends GetxController {
           ),
         );
       }
-
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }

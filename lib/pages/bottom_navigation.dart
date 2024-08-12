@@ -1,6 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hpaan_viewpoint/pages/home_page.dart';
@@ -25,30 +24,41 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.blueAccent,
+      body: SizedBox(
+        //color: Colors.blueAccent,
         child: _page[_activePage],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         elevation: 0.4,
         selectedItemColor: Colors.teal,
-        selectedIconTheme: const IconThemeData(size: 26),
+        selectedIconTheme: const IconThemeData(size: 25),
+        selectedLabelStyle: const TextStyle(
+          fontFamily: "SF-Pro",
+          fontSize: 12,
+        ),
         currentIndex: _activePage,
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.map_rounded,
+              Icons.home_rounded,
+              size: 26,
             ),
-            label: "Map",
+            label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.search),
+            icon: Icon(
+              CupertinoIcons.search,
+              size: 24,
+            ),
             label: "Search",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_rounded),
+            icon: Icon(
+              Icons.account_circle_rounded,
+              size: 26,
+            ),
             label: "Profile",
           ),
         ],
