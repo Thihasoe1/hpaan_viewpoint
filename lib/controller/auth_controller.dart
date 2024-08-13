@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hpaan_viewpoint/pages/auth/login_page.dart';
-import 'package:hpaan_viewpoint/pages/home_page.dart';
+import 'package:hpaan_viewpoint/pages/home_page/home_page.dart';
 
 import '../const/const.dart';
 import '../pages/bottom_navigation.dart';

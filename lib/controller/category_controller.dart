@@ -3,12 +3,16 @@ import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/model/categories_model.dart';
 
 class CategoryController extends GetxController {
-  bool isLoading = false;
+  var isLoading = false;
+
+
 
   var categoryList = <Category>[];
 
   Future<void> getCategoryList() async {
     try {
+      isLoading = true;
+      update();
       QuerySnapshot categories = await FirebaseFirestore.instance
           .collection("categories")
           .orderBy("id")
@@ -27,8 +31,10 @@ class CategoryController extends GetxController {
       }
     } catch (e) {
       Get.snackbar("Error", e.toString());
+    }finally{
+      isLoading = false;
+      update();
     }
-    isLoading = false;
-    update();
+
   }
 }

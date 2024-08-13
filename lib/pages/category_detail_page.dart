@@ -369,44 +369,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                             'id': mapboxStyle,
                           },
                         ),
-                        // RichAttributionWidget(
-                        //   attributions: [
-                        //     TextSourceAttribution(
-                        //       'OpenStreetMap contributors',
-                        //       onTap: () {},
-                        //     ),
-                        //   ],
-                        // ),
                         MarkerLayer(markers: markers),
-                        // MarkerLayer(
-                        //   markers: [
-                        //     Marker(
-                        //       width: 80.0,
-                        //       height: 80.0,
-                        //       point: ,
-                        //       child: const SizedBox(
-                        //         child: Icon(
-                        //           Icons.my_location,
-                        //           color: Colors.red,
-                        //           size: 25.0,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     Marker(
-                        //       width: 80.0,
-                        //       height: 80.0,
-                        //       alignment: Alignment.topCenter,
-                        //       point: ,
-                        //       child: const SizedBox(
-                        //         child: Icon(
-                        //           Icons.location_on,
-                        //           color: Colors.red,
-                        //           size: 40.0,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                       ],
                     ),
                   ),
