@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
               GetBuilder<PopularPlacesController>(
                 builder: (controller) {
 
-                  print("controller =========>${popularPlacesController.popularPlaceList.first.data.first}");
+                  //print("controller =========>${popularPlacesController.popularPlaceList.first.data.first}");
                   return popularPlacesController.isLoading
                       ? const Center(
                           child: CircularProgressIndicator(),
