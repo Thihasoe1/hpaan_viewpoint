@@ -99,7 +99,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                     labelColor: Colors.teal,
                     unselectedLabelColor: Colors.grey,
                     labelStyle: const TextStyle(
-                      fontFamily: 'Lato',
+                      fontFamily: 'SF-Pro',
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),

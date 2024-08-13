@@ -1,15 +1,10 @@
-import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/pages/tracking_location_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:http/http.dart' as http;
 
 class CardDetail extends StatefulWidget {
   const CardDetail({

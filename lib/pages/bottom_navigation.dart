@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hpaan_viewpoint/pages/home_page.dart';
 import 'package:hpaan_viewpoint/pages/profile_page.dart';
-import 'package:hpaan_viewpoint/pages/search_page.dart';
+import 'package:hpaan_viewpoint/pages/search_page/search_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});

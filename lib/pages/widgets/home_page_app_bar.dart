@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../components/custom_text.dart';
+import '../search_page/search_page.dart';
 
 class HomePageAppBar extends StatelessWidget {
   const HomePageAppBar({
@@ -97,36 +98,50 @@ class HomePageAppBar extends StatelessWidget {
             bottom: 0,
             left: 16,
             right: 16,
-            child: Container(
-              height: 56,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  width: 0.6,
-                  color: Colors.black54,
-                ),
+            child: InkWell(
+              customBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.search_rounded,
-                      size: 23,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchPage(),),);
+              },
+              child: Center(
+                child: Hero(
+                  tag: "searchbar",
+                  child: Container(
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 0.6,
+                        color: Colors.black54,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    const SizedBox(
-                      width: 10,
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            "assets/images/search_icon.png",
+                            height: 20,
+                            fit: BoxFit.cover,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          CustomText(
+                            text: "Search destination",
+                            fontFamily: "Lato",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey,
+                          ),
+                        ],
+                      ),
                     ),
-                    CustomText(
-                      text: "Search destination",
-                      fontFamily: "Lato",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.grey,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
