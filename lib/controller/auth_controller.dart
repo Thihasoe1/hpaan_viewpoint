@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hpaan_viewpoint/pages/auth/login_page.dart';
-import 'package:hpaan_viewpoint/pages/home_page/home_page.dart';
-
 import '../const/const.dart';
 import '../pages/bottom_navigation.dart';
+import '../pages/splash_page/splash_page.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -42,7 +41,7 @@ class AuthController extends GetxController {
   _setInitialScreen(User? user) {
     if (user == null) {
       // if the user is not found then the user is navigated to the Register Screen
-      Get.offAll(() => const LoginPage());
+      Get.offAll(() => const SplashPage());
     } else {
       // if the user exists and logged in the the user is navigated to the Home Screen
       Get.offAll(() => const BottomNavBar());
