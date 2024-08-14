@@ -49,6 +49,7 @@ dependencies:
   google_sign_in: ^6.2.1
   get: ^4.6.6
   http: ^1.2.2
+  readmore: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +101,10 @@ flutter:
     - family: SF-Pro
       fonts:
         - asset: assets/fonts/SF-Pro.ttf
+
+    - family: country
+      fonts:
+        - asset: assets/fonts/country.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

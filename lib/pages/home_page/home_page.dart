@@ -63,8 +63,32 @@ class _HomePageState extends State<HomePage> {
                   debugPrint(
                       "category list ==> ${categoryController.categoryList}");
                   return categoryController.isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
+                      ? GridView.builder(
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            top: 12,
+                            bottom: 12,
+                            right: 16,
+                          ),
+                          shrinkWrap: true,
+                          itemCount: 6,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 1.4,
+                          ),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              // width: 100,
+                              // height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey.shade300,
+                              ),
+                            );
+                          },
                         )
                       : GridView.builder(
                           padding: const EdgeInsets.only(
@@ -116,7 +140,6 @@ class _HomePageState extends State<HomePage> {
               ),
               GetBuilder<PopularPlacesController>(
                 builder: (controller) {
-
                   //print("controller =========>${popularPlacesController.popularPlaceList.first.data.first}");
                   return popularPlacesController.isLoading
                       ? const Center(

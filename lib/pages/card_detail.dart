@@ -5,6 +5,7 @@ import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/pages/tracking_location_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/expandable_text.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
+import 'package:readmore/readmore.dart';
 
 class CardDetail extends StatefulWidget {
   const CardDetail({
@@ -180,12 +181,25 @@ class _CardDetailState extends State<CardDetail> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: CustomText(
-                text: "${widget.singlePlace['description']}",
-                fontFamily: 'Pyidaungsu',
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
+              child: ReadMoreText(
+                "${widget.singlePlace['description']}",
+                trimMode: TrimMode.Line,
+                trimLines: 4,
+                colorClickableText: Colors.blue,
+                trimCollapsedText: 'Show more',
+                trimExpandedText: 'Show less',
+                moreStyle: const TextStyle(
+                  fontSize: 14,
+                  fontFamily: "Pyidaungsu",
+                  fontWeight: FontWeight.w400,
+                ),
               ),
+              // child: CustomText(
+              //   text: "${widget.singlePlace['description']}",
+              //   fontFamily: 'Pyidaungsu',
+              //   fontSize: 14,
+              //   fontWeight: FontWeight.w400,
+              // ),
             ),
           ],
         ),

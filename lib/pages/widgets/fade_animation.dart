@@ -8,7 +8,7 @@ class CustomFadeInAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
       tween: Tween<double>(
         begin: 0,

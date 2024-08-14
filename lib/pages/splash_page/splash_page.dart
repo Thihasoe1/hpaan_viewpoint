@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
+import 'package:hpaan_viewpoint/pages/auth/login_page.dart';
+import 'package:hpaan_viewpoint/pages/auth/register_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 
 class SplashPage extends StatefulWidget {
@@ -47,16 +49,17 @@ class _SplashPageState extends State<SplashPage> {
                 //const SizedBox(),
                 CustomText(
                   text: "Welcome to HPA-AN",
-                  fontFamily: "SF-Pro",
+                  fontFamily: "country",
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 CustomText(
                   text: "Travel with people. Make new friends.",
-                  fontFamily: "SF-Pro",
-                  fontSize: 16,
+                  fontFamily: "country",
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
+                  color: Colors.grey,
                 ),
               ],
             ),
@@ -71,7 +74,9 @@ class _SplashPageState extends State<SplashPage> {
                 children: [
                   const SizedBox(height: 100),
                   ScaleTapper(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginPage(),),);
+                    },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
                         horizontal: 40,
@@ -94,7 +99,9 @@ class _SplashPageState extends State<SplashPage> {
                     ),
                   ),
                   ScaleTapper(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterPage(),),);
+                    },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
                         horizontal: 40,
