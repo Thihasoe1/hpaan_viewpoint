@@ -57,7 +57,7 @@ class HomePageAppBar extends StatelessWidget {
                         ),
                         CustomText(
                           text: "My Location",
-                          fontFamily: "Lato",
+                          fontFamily: "SF-Pro",
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: Colors.white,
@@ -87,7 +87,7 @@ class HomePageAppBar extends StatelessWidget {
               //color: Colors.teal,
               child: CustomText(
                 text: "Where you want to go?",
-                fontFamily: "Lato",
+                fontFamily: "SF-Pro",
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
@@ -103,7 +103,12 @@ class HomePageAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchPage(),),);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SearchPage(),
+                  ),
+                );
               },
               child: Center(
                 child: Hero(
@@ -133,7 +138,7 @@ class HomePageAppBar extends StatelessWidget {
                           ),
                           CustomText(
                             text: "Search destination",
-                            fontFamily: "Lato",
+                            fontFamily: "SF-Pro",
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Colors.grey,

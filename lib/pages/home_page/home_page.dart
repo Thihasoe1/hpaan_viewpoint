@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: CustomText(
                   text: "Category",
-                  fontFamily: "Lato",
+                  fontFamily: "SF-Pro",
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: CustomText(
                   text: "Popular places",
-                  fontFamily: "Lato",
+                  fontFamily: "SF-Pro",
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),

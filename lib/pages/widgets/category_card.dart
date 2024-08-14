@@ -62,7 +62,7 @@ class CategoryCard extends StatelessWidget {
             child: SizedBox(
               child: CustomText(
                 text: categoryController.categoryList[categoryIndex].name,
-                fontFamily: 'Lato',
+                fontFamily: 'SF-Pro',
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
                 color: const Color(0xFF252525),

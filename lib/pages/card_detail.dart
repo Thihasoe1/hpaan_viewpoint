@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/pages/tracking_location_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
@@ -21,6 +22,8 @@ class CardDetail extends StatefulWidget {
 }
 
 class _CardDetailState extends State<CardDetail> {
+  TextEditingController reviewController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,21 +35,55 @@ class _CardDetailState extends State<CardDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
                   child: Image.asset(
                     "${widget.singlePlace['imageUrl']}",
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(
-                  height: 14,
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                //   child: CustomText(
+                //     text: "Photos",
+                //     fontFamily: "SF-Pro",
+                //     fontSize: 15,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
+                SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 6,
+                    ),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.only(
+                          left: 0,
+                          right: 10,
+                          top: 15,
+                          bottom: 15,
+                        ),
+                        width: 80,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey.shade200,
+                        ),
+                      );
+                    },
+                  ),
                 ),
+                const SizedBox(height: 3),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: CustomText(
                     text: "${widget.singlePlace['name']}",
-                    fontFamily: "Pyidaungsu",
+                    fontFamily: "SF-Pro",
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
@@ -138,8 +175,8 @@ class _CardDetailState extends State<CardDetail> {
                   child: CustomText(
                     text: "About this point of interest",
                     fontFamily: "SF-Pro",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 Padding(
@@ -154,20 +191,215 @@ class _CardDetailState extends State<CardDetail> {
                     textScaler: const TextScaler.linear(1),
                     trimLines: 4,
                     colorClickableText: Colors.blue,
-                    trimCollapsedText: 'show more',
-                    trimExpandedText: 'show less',
+                    trimCollapsedText: '  Show more',
+                    trimExpandedText: '  Show less',
                     moreStyle: const TextStyle(
                       fontSize: 14,
                       fontFamily: "SF-Pro",
                       fontWeight: FontWeight.w400,
                       color: Colors.blue,
                     ),
-                    style: const TextStyle(
+                    lessStyle: const TextStyle(
                       fontSize: 14,
+                      fontFamily: "SF-Pro",
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blue,
+                    ),
+                    style: const TextStyle(
+                      fontSize: 13,
                       fontFamily: "Pyidaungsu",
                       fontWeight: FontWeight.w400,
                       height: 1.8,
                     ),
+                  ),
+                ),
+                // const SizedBox(height: 5),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 5,
+                  ),
+                  child: Row(
+                    children: [
+                      CustomText(
+                        text: "Reviews",
+                        fontFamily: "SF-Pro",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      const SizedBox(width: 10),
+                      ScaleTapper(
+                        onTap: () {
+                          Get.defaultDialog(
+                            titlePadding:
+                                const EdgeInsets.symmetric(horizontal: 20),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 20,
+                            ),
+                            title: "",
+                            content: MediaQuery(
+                              data: const MediaQueryData(
+                                textScaler: TextScaler.linear(1),
+                              ),
+                              child: TextFormField(
+                                //key: widget.formKey,
+                                maxLines: 4,
+                                controller: reviewController,
+                                cursorColor: Colors.teal,
+
+                                style: const TextStyle(
+                                  fontFamily: "SF-Pro",
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                ),
+                                //validator: widget.validator,
+                                //obscureText: !_isVisible && widget.isPassword,
+                                decoration: InputDecoration(
+                                  hintText: "Write your suggestions",
+                                  hintStyle: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'SF-Pro',
+                                    color: Colors.grey.shade400,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.withOpacity(0.8),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    borderSide: const BorderSide(
+                                      color: Colors.teal,
+                                      width: 1.4,
+                                    ),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    borderSide: const BorderSide(
+                                      width: 1.4,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 18,
+                                    horizontal: 10,
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    borderSide: const BorderSide(
+                                      color: Colors.red,
+                                      width: 1.4,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            actions: [
+                              ScaleTapper(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  height: 44,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.23,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.grey.shade300,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: CustomText(
+                                      text: "Cancel",
+                                      fontFamily: "SF-Pro",
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              ScaleTapper(
+                                onTap: () {},
+                                child: Container(
+                                  height: 45,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.23,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.blue,
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CustomText(
+                                          text: "Send",
+                                          fontFamily: "SF-Pro",
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                        const SizedBox(width: 5),
+                                        const Icon(
+                                          Icons.send_rounded,
+                                          color: Colors.white,
+                                          size: 16,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        child: Container(
+                          width: 18,
+                          height: 18,
+                          //padding: const EdgeInsets.all(3),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.teal,
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.add_rounded,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey.shade200,
+                        ),
+                        height: 80,
+                        margin: const EdgeInsets.only(bottom: 10),
+                      );
+                    },
                   ),
                 ),
               ],
