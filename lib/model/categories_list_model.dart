@@ -1,4 +1,5 @@
 class Place {
+  final String id;
   final String name;
   final String location;
   final String description;
@@ -11,6 +12,7 @@ class Place {
   final String long;
 
   Place({
+    required this.id,
     required this.name,
     required this.location,
     required this.description,
@@ -25,6 +27,7 @@ class Place {
 
   factory Place.fromJson(Map<String, dynamic> json) {
     return Place(
+      id: json['id'],
       name: json['name'],
       location: json['location'],
       description: json['description'],
@@ -40,6 +43,7 @@ class Place {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'location': location,
       'description': description,
@@ -53,4 +57,3 @@ class Place {
     };
   }
 }
-

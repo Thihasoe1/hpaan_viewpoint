@@ -12,6 +12,7 @@ import 'package:hpaan_viewpoint/pages/widgets/fade_animation.dart';
 import 'package:hpaan_viewpoint/pages/widgets/home_page_app_bar.dart';
 import 'package:hpaan_viewpoint/pages/widgets/popular_place.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../model/data.dart';
 
 class HomePage extends StatefulWidget {
@@ -62,70 +63,75 @@ class _HomePageState extends State<HomePage> {
                 builder: (GetxController controller) {
                   debugPrint(
                       "category list ==> ${categoryController.categoryList}");
-                  return categoryController.isLoading
-                      ? GridView.builder(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                            top: 12,
-                            bottom: 12,
-                            right: 16,
-                          ),
-                          shrinkWrap: true,
-                          itemCount: 6,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: 1.4,
-                          ),
-                          itemBuilder: (context, index) {
-                            return Container(
-                              // width: 100,
-                              // height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey.shade300,
+                  return
+                      // categoryController.isLoading
+                      //     ? GridView.builder(
+                      //         padding: const EdgeInsets.only(
+                      //           left: 16,
+                      //           top: 12,
+                      //           bottom: 12,
+                      //           right: 16,
+                      //         ),
+                      //         shrinkWrap: true,
+                      //         itemCount: 6,
+                      //         gridDelegate:
+                      //             const SliverGridDelegateWithFixedCrossAxisCount(
+                      //           crossAxisCount: 3,
+                      //           crossAxisSpacing: 12,
+                      //           mainAxisSpacing: 12,
+                      //           childAspectRatio: 1.4,
+                      //         ),
+                      //         itemBuilder: (context, index) {
+                      //           return Container(
+                      //             // width: 100,
+                      //             // height: 40,
+                      //             decoration: BoxDecoration(
+                      //               borderRadius: BorderRadius.circular(10),
+                      //               color: Colors.grey.shade300,
+                      //             ),
+                      //           );
+                      //         },
+                      //       )
+                      //     :
+                      Skeletonizer(
+                    enabled: categoryController.isLoading,
+                    child: GridView.builder(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        top: 12,
+                        bottom: 12,
+                        right: 16,
+                      ),
+                      shrinkWrap: true,
+                      itemCount: categoryController.categoryList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        childAspectRatio: 1.4,
+                      ),
+                      itemBuilder: (context, index) {
+                        return ScaleTapper(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => CategoryDetailPage(
+                                  categoryModel:
+                                      categoryController.categoryList[index],
+                                ),
                               ),
                             );
                           },
-                        )
-                      : GridView.builder(
-                          padding: const EdgeInsets.only(
-                            left: 16,
-                            top: 12,
-                            bottom: 12,
-                            right: 16,
+                          child: CategoryCard(
+                            categoryController: categoryController,
+                            categoryIndex: index,
                           ),
-                          shrinkWrap: true,
-                          itemCount: categoryController.categoryList.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: 1.4,
-                          ),
-                          itemBuilder: (context, index) {
-                            return ScaleTapper(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => CategoryDetailPage(
-                                      categoryModel: categoryController
-                                          .categoryList[index],
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: CategoryCard(
-                                categoryController: categoryController,
-                                categoryIndex: index,
-                              ),
-                            );
-                          },
                         );
+                      },
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 20),
