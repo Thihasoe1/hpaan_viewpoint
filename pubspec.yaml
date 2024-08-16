@@ -52,6 +52,7 @@ dependencies:
   readmore: ^3.0.0
   skeletonizer: ^1.4.2
   intl: ^0.19.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -117,3 +118,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  remove_alpha_ios: true
+  image_path: "assets/logo/hpaan.png"
