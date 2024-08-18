@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1036774234076",
+    "firebase_url": "https://hpaan-viewpoint-default-rtdb.firebaseio.com",
     "project_id": "hpaan-viewpoint",
     "storage_bucket": "hpaan-viewpoint.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.thihasoe.hpaan_viewpoint"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1036774234076-k9pf1bjqoo6hi36f949shdobe0ksppla.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thihasoe.hpaan_viewpoint",
+            "certificate_hash": "8753ddc8c39c898315104a86e865578f51e98cc8"
+          }
+        },
+        {
+          "client_id": "1036774234076-0lj7d6p0moa191vctt5256rt9fhnkvdi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBX_VnHdxzBy5UcV_QEkyRowvINnD5iezc"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036774234076-0lj7d6p0moa191vctt5256rt9fhnkvdi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

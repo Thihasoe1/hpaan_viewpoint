@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hpaan_viewpoint/pages/favourite_page.dart';
 import 'package:hpaan_viewpoint/pages/home_page/home_page.dart';
 import 'package:hpaan_viewpoint/pages/profile_page/profile_page.dart';
 import 'package:hpaan_viewpoint/pages/search_page/search_page.dart';
@@ -17,6 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   final List<dynamic> _page = [
     const HomePage(),
     const SearchPage(),
+    const FavouritePage(),
     const ProfilePage(),
   ];
   int _activePage = 0;
@@ -37,6 +39,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           fontFamily: "SF-Pro",
           fontSize: 12,
         ),
+        unselectedItemColor: Colors.grey.shade400,
         currentIndex: _activePage,
         type: BottomNavigationBarType.fixed,
         items: const [
@@ -53,6 +56,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
               size: 24,
             ),
             label: "Search",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite_outline_rounded,
+              size: 24,
+            ),
+            label: "Favourite",
           ),
           BottomNavigationBarItem(
             icon: Icon(

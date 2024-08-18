@@ -82,7 +82,7 @@ class AuthController extends GetxController {
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
-      print(e.toString());
+      print("error =============> ${e.toString()}");
     }
   }
 
@@ -94,6 +94,8 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
+
+      await userCredential.user?.updateDisplayName(username);
 
       createUserDocument(userCredential, username);
     } on FirebaseAuthException catch (error) {

@@ -110,7 +110,7 @@ class _CardDetailState extends State<CardDetail> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: CustomText(
                       text: "${widget.singlePlace['name']}",
-                      fontFamily: "SF-Pro",
+                      fontFamily: "MyanmarSanpya",
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
@@ -234,7 +234,7 @@ class _CardDetailState extends State<CardDetail> {
                       ),
                       style: const TextStyle(
                         fontSize: 13,
-                        fontFamily: "Pyidaungsu",
+                        fontFamily: "MyanmarSanpya",
                         fontWeight: FontWeight.w400,
                         height: 1.8,
                       ),
@@ -475,7 +475,8 @@ class _CardDetailState extends State<CardDetail> {
                                           Row(
                                             children: [
                                               CustomText(
-                                                text: "username",
+                                                text:
+                                                    "${commentController.comments[index]['username']}",
                                                 fontFamily: "SF-Pro",
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,

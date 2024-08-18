@@ -110,41 +110,42 @@ class HomePageAppBar extends StatelessWidget {
                   ),
                 );
               },
-              child: Center(
-                child: Hero(
-                  tag: "searchbar",
-                  child: Container(
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        width: 0.6,
-                        color: Colors.black54,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
+              child: Hero(
+                tag: "searchbar",
+                child: Container(
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      width: 0.6,
+                      color: Colors.black54,
                     ),
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/search_icon.png",
-                            height: 20,
-                            fit: BoxFit.cover,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          CustomText(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "assets/images/search_icon.png",
+                          height: 20,
+                          fit: BoxFit.cover,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        DefaultTextStyle(
+                          style: const TextStyle(),
+                          child: CustomText(
                             text: "Search destination",
                             fontFamily: "SF-Pro",
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Colors.grey,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

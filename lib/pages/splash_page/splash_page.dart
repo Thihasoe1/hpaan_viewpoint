@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/pages/auth/login_page.dart';
 import 'package:hpaan_viewpoint/pages/auth/register_page.dart';
+import 'package:hpaan_viewpoint/pages/bottom_navigation.dart';
+import 'package:hpaan_viewpoint/pages/home_page/home_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 
 class SplashPage extends StatefulWidget {
@@ -15,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  Colors.white,
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,7 +77,12 @@ class _SplashPageState extends State<SplashPage> {
                   const SizedBox(height: 100),
                   ScaleTapper(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginPage(),),);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const LoginPage(),
+                        ),
+                      );
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
@@ -100,7 +107,12 @@ class _SplashPageState extends State<SplashPage> {
                   ),
                   ScaleTapper(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterPage(),),);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RegisterPage(),
+                        ),
+                      );
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
@@ -115,6 +127,61 @@ class _SplashPageState extends State<SplashPage> {
                       child: Center(
                         child: CustomText(
                           text: "SIGN UP",
+                          fontFamily: "SF-Pro",
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: Colors.grey.shade200,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        CustomText(
+                          text: "or",
+                          fontFamily: "SF-Pro",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Divider(
+                            color: Colors.grey.shade200,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ScaleTapper(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const BottomNavBar(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 8,
+                      ),
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.amberAccent,
+                      ),
+                      child: Center(
+                        child: CustomText(
+                          text: "Login with guest",
                           fontFamily: "SF-Pro",
                           fontSize: 15,
                           fontWeight: FontWeight.bold,

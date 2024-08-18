@@ -108,6 +108,10 @@ flutter:
     - family: country
       fonts:
         - asset: assets/fonts/country.ttf
+    
+    - family: MyanmarSanpya
+      fonts:
+        - asset: assets/fonts/MyanmarSanpya.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/pages/auth/register_page.dart';
 import '../../components/custom_text.dart';
 import '../../const/const.dart';
-import '../widgets/fade_animation.dart';
 import '../widgets/scale_tapper.dart';
 
 class LoginPage extends StatefulWidget {
@@ -205,7 +204,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 30),
                       ScaleTapper(
-                        onTap: () {},
+                        onTap: () {
+                          authController.signInWithGoogle();
+                        },
                         child: Container(
                           height: 55,
                           //margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -285,7 +286,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: const MediaQueryData(textScaler: TextScaler.linear(1),),
+      data: const MediaQueryData(
+        textScaler: TextScaler.linear(1),
+      ),
       child: TextFormField(
         //key: widget.formKey,
         controller: widget.textEditingController,
@@ -300,7 +303,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         obscureText: !_isVisible && widget.isPassword,
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle:  TextStyle(
+          hintStyle: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w400,
             fontFamily: 'SF-Pro',
