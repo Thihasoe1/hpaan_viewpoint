@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hpaan_viewpoint/pages/auth/forgot_password_page.dart';
 import 'package:hpaan_viewpoint/pages/auth/register_page.dart';
 import '../../components/custom_text.dart';
 import '../../const/const.dart';
@@ -96,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           const SizedBox(),
                           ScaleTapper(
-                            onTap: () {},
+                            onTap: () => Get.to(const ForgotPasswordPage()),
                             child: CustomText(
                               text: "Forgot password?",
                               fontFamily: "SF-Pro",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hpaan_viewpoint/pages/auth/register_page.dart';
+import 'package:get/get.dart';
+import '../../controller/category_controller.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -11,6 +12,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   // Initialize the TextEditingController
   TextEditingController searchController = TextEditingController();
+  CategoryController categoryController = Get.put(CategoryController());
 
   @override
   void dispose() {

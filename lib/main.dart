@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/binding/controller_binding.dart';
@@ -9,6 +10,11 @@ Future main() async {
   await firebaseInitialization.then((value) {
     Get.put(AuthController());
   });
+  await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    androidProvider: AndroidProvider.debug, // or AndroidProvider.safetyNet
+    appleProvider: AppleProvider.appAttest, // or AppleProvider.deviceCheck
+  );
   runApp(const MyApp());
 }
 
@@ -23,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        fontFamily: "Lato",
+        fontFamily: "SF-Pro",
         textTheme: const TextTheme(
           headlineLarge: TextStyle(
             fontSize: 18.0,

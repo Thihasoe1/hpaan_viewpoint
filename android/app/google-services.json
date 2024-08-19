@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1036774234076:android:b72ab00063139cd8a22119",
         "android_client_info": {
-          "package_name": "com.thihasoe.hpaan_viewpoint"
+          "package_name": "com.thihasoe.hpaanviewpoint"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "1036774234076-k9pf1bjqoo6hi36f949shdobe0ksppla.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.thihasoe.hpaan_viewpoint",
+            "package_name": "com.thihasoe.hpaanviewpoint",
             "certificate_hash": "8753ddc8c39c898315104a86e865578f51e98cc8"
           }
         },

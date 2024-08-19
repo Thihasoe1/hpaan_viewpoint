@@ -111,7 +111,9 @@ class _ProfileBodyState extends State<ProfileBody> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final userData = snapshot.data!.data() as Map<String, dynamic>;
+
+
+                final userData = snapshot.data?.data() as Map<String, dynamic>;
                 TextEditingController nameController =
                     TextEditingController(text: userData['name']);
                 TextEditingController emailController =

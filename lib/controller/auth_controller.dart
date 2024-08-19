@@ -59,22 +59,69 @@ class AuthController extends GetxController {
     }
   }
 
-  void signInWithGoogle() async {
+  // Future<User> signInWithGoogle() async {
+  //   try {
+  //     GoogleSignInAccount? googleSignInAccount = await googleSign.signIn();
+  //
+  //     if (googleSignInAccount != null) {
+  //       GoogleSignInAuthentication googleSignInAuthentication =
+  //           await googleSignInAccount.authentication;
+  //
+  //       AuthCredential credential = GoogleAuthProvider.credential(
+  //         accessToken: googleSignInAuthentication.accessToken,
+  //         idToken: googleSignInAuthentication.idToken,
+  //       );
+  //
+  //       await auth
+  //           .signInWithCredential(credential)
+  //           .catchError((onErr) => debugPrint("error==================> $onErr"));
+  //
+  //       UserCredential userCredential = await auth.signInWithCredential(credential).catchError((onErr) {
+  //         debugPrint("error==================> $onErr");
+  //       });
+  //
+  //       // Get the user's email from the UserCredential object
+  //       User? user = userCredential.user;
+  //       if (user != null) {
+  //         String? email = user.email;
+  //         print("User Email: $email");
+  //
+  //         // You can return the userCredential or handle it as needed
+  //         return user;
+  //       }
+  //
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar(
+  //       "Error",
+  //       e.toString(),
+  //       snackPosition: SnackPosition.BOTTOM,
+  //     );
+  //     print("error =============> ${e.toString()}");
+  //   }
+  // }
+   signInWithGoogle() async {
     try {
+      // Sign in with Google
       GoogleSignInAccount? googleSignInAccount = await googleSign.signIn();
 
       if (googleSignInAccount != null) {
         GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+        await googleSignInAccount.authentication;
 
         AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
 
-        await auth
-            .signInWithCredential(credential)
-            .catchError((onErr) => debugPrint(onErr));
+        // Sign in with the obtained credential
+        UserCredential userCredential = await auth.signInWithCredential(credential).catchError((onErr) {
+          debugPrint("error==================> $onErr");
+        });
+
+        // Get the user's email from the UserCredential object
+        createUserDocument(userCredential, "UserName");
+
       }
     } catch (e) {
       Get.snackbar(
@@ -84,7 +131,9 @@ class AuthController extends GetxController {
       );
       print("error =============> ${e.toString()}");
     }
+
   }
+
 
   void register(String email, password, username) async {
     try {
