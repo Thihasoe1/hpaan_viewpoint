@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/controller/comment_controller.dart';
@@ -15,11 +14,9 @@ class CardDetail extends StatefulWidget {
   const CardDetail({
     super.key,
     required this.singlePlace,
-    required this.marker,
   });
 
   final dynamic singlePlace;
-  final List<Marker> marker;
 
   @override
   State<CardDetail> createState() => _CardDetailState();
@@ -462,9 +459,14 @@ class _CardDetailState extends State<CardDetail> {
                                       Container(
                                         width: 30,
                                         height: 30,
-                                        decoration: const BoxDecoration(
+                                        decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.amberAccent,
+                                          color: Colors.blueGrey.shade200,
+                                        ),
+                                        padding: const EdgeInsets.all(6),
+                                        child: Image.asset(
+                                          "assets/images/user.png",
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                       const SizedBox(width: 14),

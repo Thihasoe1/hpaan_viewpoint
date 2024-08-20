@@ -3,7 +3,6 @@ import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/pages/auth/login_page.dart';
 import 'package:hpaan_viewpoint/pages/auth/register_page.dart';
 import 'package:hpaan_viewpoint/pages/bottom_navigation.dart';
-import 'package:hpaan_viewpoint/pages/home_page/home_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 
 class SplashPage extends StatefulWidget {

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Place {
   final String id;
   final String name;
@@ -25,9 +27,13 @@ class Place {
     required this.long,
   });
 
-  factory Place.fromJson(Map<String, dynamic> json) {
+  factory Place.fromDocumentSnapshot(DocumentSnapshot doc) {
+    return Place.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+  }
+
+  factory Place.fromJson(Map<String, dynamic> json, String docId) {
     return Place(
-      id: json['id'],
+      id: docId,
       name: json['name'],
       location: json['location'],
       description: json['description'],

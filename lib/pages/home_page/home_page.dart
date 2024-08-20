@@ -151,7 +151,10 @@ class _HomePageState extends State<HomePage> {
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : const PopularPlaces();
+                      : PopularPlaces(
+                          popularPlace:
+                              popularPlacesController.popularPlaceList,
+                        );
                 },
               ),
             ],

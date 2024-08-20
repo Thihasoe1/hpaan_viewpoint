@@ -17,7 +17,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   final List<dynamic> _page = [
     const HomePage(),
-    const SearchPage(),
+    SearchPage(),
     const FavouritePage(),
     const ProfilePage(),
   ];

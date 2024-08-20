@@ -90,7 +90,9 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
               height: 60,
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: MediaQuery(
-                data: const MediaQueryData(textScaler: TextScaler.linear(1),),
+                data: const MediaQueryData(
+                  textScaler: TextScaler.linear(1),
+                ),
                 child: AppBar(
                   backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
                   bottom: TabBar(
@@ -178,7 +180,6 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                             MaterialPageRoute(
                               builder: (_) => CardDetail(
                                 singlePlace: widget.categoryModel?.place[index],
-                                marker: markers,
                               ),
                             ),
                           );

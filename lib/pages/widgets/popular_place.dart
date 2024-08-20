@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../../components/custom_text.dart';
+import '../../model/popular_place_data.dart';
 
 class PopularPlaces extends StatelessWidget {
   const PopularPlaces({
     super.key,
+    required this.popularPlace,
   });
+
+  final List<PopularPlaceData> popularPlace;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 215,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: popularPlace.first.data.length,
         physics: const BouncingScrollPhysics(
           decelerationRate: ScrollDecelerationRate.fast,
         ),
@@ -23,6 +27,7 @@ class PopularPlaces extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemBuilder: (context, index) {
+          final popularPlaceResult = popularPlace.first.data;
           return Stack(
             children: [
               Container(
@@ -43,16 +48,17 @@ class PopularPlaces extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 100,
-                      margin: const EdgeInsets.only(
-                        top: 8,
-                        left: 8,
-                        right: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.teal,
-                        borderRadius: BorderRadius.circular(12),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                          top: 8,
+                          left: 8,
+                          right: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                     Padding(
@@ -62,8 +68,7 @@ class PopularPlaces extends StatelessWidget {
                         right: 6,
                       ),
                       child: CustomText(
-                        text:
-                        "This is title This is title This is title",
+                        text: "${popularPlaceResult[index]['name']}",
                         fontFamily: "Lato",
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
