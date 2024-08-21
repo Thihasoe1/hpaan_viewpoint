@@ -158,7 +158,7 @@ class _SearchPageState extends State<SearchPage> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         mainAxisSpacing: 10,
-                        crossAxisSpacing: 0,
+                        crossAxisSpacing: 10,
                         crossAxisCount: 2,
                       ),
                       itemBuilder: (context, index) {
@@ -172,8 +172,8 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                               child: Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                width: 170,
+                                margin: const EdgeInsets.only(right: 0),
+
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(13),
@@ -196,6 +196,7 @@ class _SearchPageState extends State<SearchPage> {
                                           left: 8,
                                           right: 8,
                                         ),
+                                        width: MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
                                           color: Colors.teal,
                                           borderRadius:
@@ -218,6 +219,28 @@ class _SearchPageState extends State<SearchPage> {
                                       ),
                                       child: Row(
                                         crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+
+                                          Expanded(
+                                            child: CustomText(
+                                              text: "${place['name']}",
+                                              fontFamily: "SF-Pro",
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              maxLine: 2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 8,
+                                        top: 5,
+                                      ),
+                                      child: Row(
+                                        crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
                                           const Icon(
@@ -231,10 +254,10 @@ class _SearchPageState extends State<SearchPage> {
                                           Expanded(
                                             child: CustomText(
                                               text: "${place['location']}",
-                                              fontFamily: "Lato",
+                                              fontFamily: "SF-Pro",
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
-                                              maxLine: 2,
+                                              maxLine: 1,
                                             ),
                                           ),
                                         ],
@@ -244,24 +267,6 @@ class _SearchPageState extends State<SearchPage> {
                                       height: 6,
                                     ),
                                   ],
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 20,
-                              top: 10,
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black12,
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.favorite_rounded,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
                                 ),
                               ),
                             ),

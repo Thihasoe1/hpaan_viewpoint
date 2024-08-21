@@ -27,6 +27,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
       body: SizedBox(
         child: _page[_activePage],
       ),
@@ -52,13 +53,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
             label: 'Search',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.favorite_outline_rounded,color: Colors.white,),
-            icon: Icon(Icons.favorite_rounded),
+            selectedIcon: Icon(Icons.favorite_rounded,color: Colors.white,),
+            icon: Icon(Icons.favorite_outline_rounded),
             label: 'Favourite',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.account_circle_outlined,color: Colors.white,),
-            icon: Icon(Icons.account_circle_rounded),
+            selectedIcon: Icon(Icons.account_circle_rounded,color: Colors.white,),
+            icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
           ),
         ],
