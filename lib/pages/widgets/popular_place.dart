@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../components/custom_text.dart';
-import '../../model/popular_place_data.dart';
 
 class PopularPlaces extends StatelessWidget {
   const PopularPlaces({

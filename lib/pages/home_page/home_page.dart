@@ -13,7 +13,6 @@ import 'package:hpaan_viewpoint/pages/category_detail_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/category_card.dart';
 import 'package:hpaan_viewpoint/pages/widgets/fade_animation.dart';
 import 'package:hpaan_viewpoint/pages/widgets/home_page_app_bar.dart';
-import 'package:hpaan_viewpoint/pages/widgets/popular_place.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../model/data.dart';
@@ -64,8 +63,6 @@ class _HomePageState extends State<HomePage> {
               GetBuilder<CategoryController>(
                 init: CategoryController(),
                 builder: (GetxController controller) {
-                  debugPrint(
-                      "category list ==> ${categoryController.popularPlaces}");
                   return categoryController.isLoading
                       ? GridView.builder(
                           padding: const EdgeInsets.only(
@@ -404,136 +401,8 @@ class _HomePageState extends State<HomePage> {
                             },
                           ),
                         );
-                  // : PopularPlaces(
-                  //     popularPlace: categoryController.popularPlaces,
-                  //   );
                 },
               ),
-              // GetBuilder<PopularPlacesController>(
-              //   builder: (controller) {
-              //     //print("controller =========>${popularPlacesController.popularPlaceList.first.data.first}");
-              //     return popularPlacesController.isLoading
-              //         ? SizedBox(
-              //             height: 180,
-              //             child: ListView.builder(
-              //               itemCount: 4,
-              //               physics: const BouncingScrollPhysics(
-              //                 decelerationRate: ScrollDecelerationRate.fast,
-              //               ),
-              //               padding: const EdgeInsets.symmetric(
-              //                 horizontal: 16,
-              //                 vertical: 10,
-              //               ),
-              //               scrollDirection: Axis.horizontal,
-              //               shrinkWrap: true,
-              //               itemBuilder: (context, index) {
-              //                 return CustomShimmer(
-              //                   child: Stack(
-              //                     children: [
-              //                       Container(
-              //                         margin: const EdgeInsets.only(right: 10),
-              //                         width: 170,
-              //                         decoration: BoxDecoration(
-              //                           color: Colors.white,
-              //                           borderRadius: BorderRadius.circular(13),
-              //                           boxShadow: const [
-              //                             BoxShadow(
-              //                               color: Colors.white,
-              //                               offset:  Offset(0, 2),
-              //                               spreadRadius: 3,
-              //                               blurRadius: 4,
-              //                             ),
-              //                           ],
-              //                         ),
-              //                         child: Column(
-              //                           crossAxisAlignment:
-              //                               CrossAxisAlignment.start,
-              //                           children: [
-              //                             Expanded(
-              //                               child: Container(
-              //                                 margin: const EdgeInsets.only(
-              //                                   top: 8,
-              //                                   left: 8,
-              //                                   right: 8,
-              //                                 ),
-              //                                 decoration: BoxDecoration(
-              //                                   color: Colors.white,
-              //                                   borderRadius:
-              //                                       BorderRadius.circular(12),
-              //                                 ),
-              //                               ),
-              //                             ),
-              //                             Padding(
-              //                               padding: const EdgeInsets.only(
-              //                                 left: 8,
-              //                                 top: 5,
-              //                                 right: 6,
-              //                               ),
-              //                               child: Container(
-              //                                 color: Colors.white,
-              //                                 height: 10,
-              //                               ),
-              //                             ),
-              //                             Padding(
-              //                               padding: const EdgeInsets.only(
-              //                                 left: 8,
-              //                                 top: 5,
-              //                               ),
-              //                               child: Row(
-              //                                 crossAxisAlignment:
-              //                                     CrossAxisAlignment.center,
-              //                                 children: [
-              //                                   const Icon(
-              //                                     Icons.location_on_rounded,
-              //                                     size: 15,
-              //                                     color: Color(0xFF252525),
-              //                                   ),
-              //                                   const SizedBox(
-              //                                     width: 5,
-              //                                   ),
-              //                                   Container(
-              //                                     height: 10,
-              //                                     color: Colors.white,
-              //                                   ),
-              //                                 ],
-              //                               ),
-              //                             ),
-              //                             const SizedBox(
-              //                               height: 6,
-              //                             ),
-              //                           ],
-              //                         ),
-              //                       ),
-              //                       Positioned(
-              //                         right: 20,
-              //                         top: 10,
-              //                         child: Container(
-              //                           padding: const EdgeInsets.all(6),
-              //                           decoration: const BoxDecoration(
-              //                             shape: BoxShape.circle,
-              //                             color: Colors.black12,
-              //                           ),
-              //                           child: const Center(
-              //                             child: Icon(
-              //                               Icons.favorite_rounded,
-              //                               color: Colors.white,
-              //                               size: 18,
-              //                             ),
-              //                           ),
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 );
-              //               },
-              //             ),
-              //           )
-              //         : PopularPlaces(
-              //             popularPlace:
-              //                 popularPlacesController.popularPlaceList,
-              //           );
-              //   },
-              // ),
             ],
           ),
         ),

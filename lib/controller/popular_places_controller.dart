@@ -11,22 +11,17 @@ class PopularPlacesController extends GetxController {
     try {
       isLoading = true;
       update();
-      QuerySnapshot popularPlace = await FirebaseFirestore.instance
-          .collection("popular")
-          .get();
-
-      print("query snapshot =======> ${popularPlace}");
+      QuerySnapshot popularPlace =
+          await FirebaseFirestore.instance.collection("popular").get();
 
       popularPlaceList.clear();
       for (var popularPlaces in popularPlace.docs) {
-
         popularPlaceList.add(
           PopularPlaceData(
             data: popularPlaces['data'],
           ),
         );
       }
-      print("popular place ======> ${popularPlaceList}");
     } catch (e) {
       Get.snackbar("Error", e.toString());
     } finally {

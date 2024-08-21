@@ -49,7 +49,6 @@ class AuthController extends GetxController {
   }
 
   _setInitialScreenGoogle(GoogleSignInAccount? googleSignInAccount) {
-    debugPrint("$googleSignInAccount");
     if (googleSignInAccount == null) {
       Get.offAll(() => const LoginPage());
     } else {
@@ -57,28 +56,26 @@ class AuthController extends GetxController {
     }
   }
 
-   signInWithGoogle() async {
+  signInWithGoogle() async {
     try {
-
       GoogleSignInAccount? googleSignInAccount = await googleSign.signIn();
 
       if (googleSignInAccount != null) {
         GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+            await googleSignInAccount.authentication;
 
         AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
 
-        final googleUserName = googleSignInAccount.displayName ?? "Unknown username";
+        final googleUserName =
+            googleSignInAccount.displayName ?? "Unknown username";
 
-        UserCredential userCredential = await auth.signInWithCredential(credential).catchError((onErr) {
-          debugPrint("error==================> $onErr");
-        });
+        UserCredential userCredential =
+            await auth.signInWithCredential(credential).catchError((onErr) {});
 
         createUserDocument(userCredential, googleUserName);
-
       }
     } catch (e) {
       Get.snackbar(
@@ -86,11 +83,8 @@ class AuthController extends GetxController {
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
-      print("error =============> ${e.toString()}");
     }
-
   }
-
 
   void register(String email, password, username) async {
     try {
@@ -133,10 +127,8 @@ class AuthController extends GetxController {
     } on FirebaseAuthException catch (error) {
       Get.snackbar(
           "Invalid email and password", "Please create account first!");
-      debugPrint(error.toString());
     } catch (e) {
       Get.snackbar("Error", e.toString());
-      //throw Exception("Login Error");
     } finally {
       setLoading(false);
     }

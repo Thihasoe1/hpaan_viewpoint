@@ -32,7 +32,7 @@ class CategoryController extends GetxController {
           .expand((category) => category.place)
           .where((pp) => (double.tryParse(pp['rating']) ?? 0.0) >= 4.5)
           .toList();
-      print("popular places ===> ${popularPlacesList.length}");
+
       popularPlaces.value = popularPlacesList;
     } catch (e) {
       Get.snackbar("Error", e.toString());

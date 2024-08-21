@@ -34,7 +34,7 @@ class SearchPlaceController extends GetxController {
         categories.add(Category.fromDocumentSnapshot(doc, places));
       }
     } catch (e) {
-      print("Error fetching data: $e");
+      Get.snackbar("Error", e.toString());
     }
   }
 
@@ -46,8 +46,6 @@ class SearchPlaceController extends GetxController {
       var results = <dynamic>[];
 
       for (var category in categories) {
-        print("Query in Category =========> ${category}");
-
         // Check if category.place is not null
         if (category.place != null) {
           results.addAll(
@@ -59,14 +57,7 @@ class SearchPlaceController extends GetxController {
         }
       }
 
-      // Logging before and after updating searchResults
-      print("Results found =========> ${results}");
-      print("SearchResults before update =========> ${searchResults}");
-
-      // Update searchResults reactively
       searchResults.value = results;
-
-      print("SearchResults after update =========> ${searchResults}");
     }
   }
 }

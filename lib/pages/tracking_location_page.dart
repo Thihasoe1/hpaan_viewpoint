@@ -8,8 +8,6 @@ import 'package:hpaan_viewpoint/pages/widgets/current_position_animation.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
-import 'dart:math' show cos, sqrt, asin;
-
 import '../const/const.dart';
 
 class TrackingLocationPage extends StatefulWidget {
@@ -42,7 +40,6 @@ class _TrackingLocationPageState extends State<TrackingLocationPage>
   @override
   void initState() {
     super.initState();
-    debugPrint("init state working");
     WidgetsBinding.instance.addObserver(this);
     _getCurrentLocation();
   }

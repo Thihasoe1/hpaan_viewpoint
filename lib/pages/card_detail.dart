@@ -13,7 +13,6 @@ import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:super_tooltip/super_tooltip.dart';
 
 class CardDetail extends StatefulWidget {
   const CardDetail({
