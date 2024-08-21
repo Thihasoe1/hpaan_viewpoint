@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
+import 'package:hpaan_viewpoint/const/const.dart';
 import 'package:hpaan_viewpoint/controller/comment_controller.dart';
+import 'package:hpaan_viewpoint/controller/profile_controller.dart';
 import 'package:hpaan_viewpoint/pages/tracking_location_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:intl/intl.dart';
@@ -30,9 +32,16 @@ class _CardDetailState extends State<CardDetail> {
 
   CommentController commentController = Get.put(CommentController());
 
+  ProfileController profileController = ProfileController();
+
+  final currentUser = FirebaseAuth.instance.currentUser;
+
+
   @override
   void initState() {
     super.initState();
+    print("this is profile controller current user =====> ${profileController.currentUser}");
+    print("this is current user =====> ${currentUser}");
     commentController.fetchComments(widget.singlePlace['placeId']);
   }
 
@@ -49,7 +58,7 @@ class _CardDetailState extends State<CardDetail> {
       return DateFormat('dd/MM/yyyy').format(dateTime);
     }
 
-    final currentUser = FirebaseAuth.instance.currentUser;
+
     final _controller = SuperTooltipController();
     final _secController = SuperTooltipController();
 
@@ -162,89 +171,56 @@ class _CardDetailState extends State<CardDetail> {
                             ],
                           ),
                         ),
-                        WillPopScope(
-                          onWillPop: _willPopCallback,
-                          child: ScaleTapper(
-                            onTap: currentUser == null
-                                ? () async {
-                                    await _controller.showTooltip();
-                                  }
-                                : () {
-                                    HapticFeedback.mediumImpact();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => TrackingLocationPage(
-                                          // currentLocation: _currentPosition,
-                                          // routePoints: _routePoints,
-                                          lat: double.tryParse(
-                                                  "${widget.singlePlace['lat']}") ??
-                                              0.2,
-                                          long: double.tryParse(
-                                                  "${widget.singlePlace['long']}") ??
-                                              0.2,
-                                        ),
+                        ScaleTapper(
+                          onTap: profileController.currentUser == null
+                              ? () {
+                                Get.snackbar("Alert!", "Please login and tracking location",dismissDirection: DismissDirection.down,snackPosition: SnackPosition.BOTTOM,);
+                                }
+                              : () {
+                                  //HapticFeedback.mediumImpact();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => TrackingLocationPage(
+                                        // currentLocation: _currentPosition,
+                                        // routePoints: _routePoints,
+                                        lat: double.tryParse(
+                                                "${widget.singlePlace['lat']}") ??
+                                            0.2,
+                                        long: double.tryParse(
+                                                "${widget.singlePlace['long']}") ??
+                                            0.2,
                                       ),
-                                    );
-                                  },
-                            child: SuperTooltip(
-                              showBarrier: true,
-                              controller: _controller,
-                              //popupDirection: TooltipDirection.down,
-                              backgroundColor: Colors.black54,
-                              //left: 30,
-                              right: 10,
-                              shadowColor: Colors.white38,
-                              borderColor: Colors.white38,
-                              // arrowTipDistance: 15.0,
-                              // arrowBaseWidth: 20.0,
-                              // arrowLength: 20.0,
-                              // borderWidth: 2.0,
-                              // constraints: const BoxConstraints(
-                              //   minHeight: 0.0,
-                              //   maxHeight: 100,
-                              //   minWidth: 0.0,
-                              //   maxWidth: 100,
-                              // ),
-                              touchThroughAreaShape: ClipAreaShape.rectangle,
-                              //touchThroughAreaCornerRadius: 30,
-                              barrierColor:  Colors.black12,
-                              content: CustomText(
-                                text: 'Please login first',
-                                fontFamily: 'SF-Pro',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(218, 237, 237, 237),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 6,
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      CustomText(
-                                        text: "Bring me there",
-                                        fontFamily: "SF-Pro",
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.teal,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      const Icon(
-                                        CupertinoIcons.location_fill,
-                                        color: Colors.teal,
-                                        size: 12,
-                                      ),
-                                    ],
+                                    ),
+                                  );
+                                },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color:
+                                  const Color.fromARGB(218, 237, 237, 237),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  CustomText(
+                                    text: "Bring me there",
+                                    fontFamily: "SF-Pro",
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.teal,
                                   ),
-                                ),
+                                  const SizedBox(width: 4),
+                                  const Icon(
+                                    CupertinoIcons.location_fill,
+                                    color: Colors.teal,
+                                    size: 12,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -314,185 +290,161 @@ class _CardDetailState extends State<CardDetail> {
                           fontWeight: FontWeight.w600,
                         ),
                         const SizedBox(width: 10),
-                        WillPopScope(
-                          onWillPop: _secWillPopCallback,
-                          child: ScaleTapper(
-                            onTap: currentUser == null ? () async {
-                              await _controller.showTooltip();
-                            } : () {
-                              Get.defaultDialog(
-                                titlePadding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 20,
-                                ),
-                                title: "",
-                                content: MediaQuery(
-                                  data: const MediaQueryData(
-                                    textScaler: TextScaler.linear(1),
-                                  ),
-                                  child: TextFormField(
-                                    //key: widget.formKey,
-                                    maxLines: 4,
-                                    controller: reviewController,
-                                    cursorColor: Colors.teal,
-
-                                    style: const TextStyle(
-                                      fontFamily: "SF-Pro",
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                    ),
-                                    //validator: widget.validator,
-                                    //obscureText: !_isVisible && widget.isPassword,
-                                    decoration: InputDecoration(
-                                      hintText: "Write your suggestions",
-                                      hintStyle: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'SF-Pro',
-                                        color: Colors.grey.shade400,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: BorderSide(
-                                          color: Colors.grey.withOpacity(0.8),
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: const BorderSide(
-                                          color: Colors.teal,
-                                          width: 1.4,
-                                        ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: const BorderSide(
-                                          width: 1.4,
-                                        ),
-                                      ),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 18,
-                                        horizontal: 10,
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        borderSide: const BorderSide(
-                                          color: Colors.red,
-                                          width: 1.4,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                actions: [
-                                  ScaleTapper(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                      height: 44,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.23,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: CustomText(
-                                          text: "Cancel",
-                                          fontFamily: "SF-Pro",
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  ScaleTapper(
-                                    onTap: () {
-                                      if (reviewController.text.isNotEmpty) {
-                                        commentController.addComment(
-                                          widget.singlePlace['placeId'],
-                                          reviewController.text,
-                                        );
-                                        reviewController.clear();
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.23,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.blue,
-                                      ),
-                                      child: Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            CustomText(
-                                              text: "Send",
-                                              fontFamily: "SF-Pro",
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white,
-                                            ),
-                                            const SizedBox(width: 5),
-                                            const Icon(
-                                              Icons.send_rounded,
-                                              color: Colors.white,
-                                              size: 16,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                            child: SuperTooltip(
-                              showBarrier: true,
-                              controller: _controller,
-
-                              backgroundColor: Colors.black54,
-
-                              left: 10,
-                              shadowColor: Colors.white38,
-                              borderColor: Colors.white38,
-
-                              touchThroughAreaShape: ClipAreaShape.rectangle,
-                              //touchThroughAreaCornerRadius: 30,
-                              barrierColor:  Colors.black12,
-                              content: CustomText(
-                                text: 'Please login first',
-                                fontFamily: 'SF-Pro',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white,
+                        ScaleTapper(
+                          onTap: profileController.currentUser == null ? (){
+                            Get.snackbar("Alert!", "Please login and write review",dismissDirection: DismissDirection.down,snackPosition: SnackPosition.BOTTOM,);
+                          } : () {
+                            Get.defaultDialog(
+                              titlePadding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 20,
                               ),
-                              child: Container(
-                                width: 18,
-                                height: 18,
-                                //padding: const EdgeInsets.all(3),
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.teal,
+                              title: "",
+                              content: MediaQuery(
+                                data: const MediaQueryData(
+                                  textScaler: TextScaler.linear(1),
                                 ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.add_rounded,
-                                    size: 18,
-                                    color: Colors.white,
+                                child: TextFormField(
+                                  //key: widget.formKey,
+                                  maxLines: 4,
+                                  controller: reviewController,
+                                  cursorColor: Colors.teal,
+
+                                  style: const TextStyle(
+                                    fontFamily: "SF-Pro",
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                  ),
+                                  //validator: widget.validator,
+                                  //obscureText: !_isVisible && widget.isPassword,
+                                  decoration: InputDecoration(
+                                    hintText: "Write your suggestions",
+                                    hintStyle: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'SF-Pro',
+                                      color: Colors.grey.shade400,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.withOpacity(0.8),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      borderSide: const BorderSide(
+                                        color: Colors.teal,
+                                        width: 1.4,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      borderSide: const BorderSide(
+                                        width: 1.4,
+                                      ),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 18,
+                                      horizontal: 10,
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                        width: 1.4,
+                                      ),
+                                    ),
                                   ),
                                 ),
+                              ),
+                              actions: [
+                                ScaleTapper(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    height: 44,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.23,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Colors.grey.shade300,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: CustomText(
+                                        text: "Cancel",
+                                        fontFamily: "SF-Pro",
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                ScaleTapper(
+                                  onTap: () {
+                                    if (reviewController.text.isNotEmpty) {
+                                      commentController.addComment(
+                                        widget.singlePlace['placeId'],
+                                        reviewController.text,
+                                      );
+                                      reviewController.clear();
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 45,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.23,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.blue,
+                                    ),
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CustomText(
+                                            text: "Send",
+                                            fontFamily: "SF-Pro",
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          const Icon(
+                                            Icons.send_rounded,
+                                            color: Colors.white,
+                                            size: 16,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                          child: Container(
+                            width: 18,
+                            height: 18,
+                            //padding: const EdgeInsets.all(3),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.teal,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.add_rounded,
+                                size: 18,
+                                color: Colors.white,
                               ),
                             ),
                           ),
