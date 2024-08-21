@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/model/categories_model.dart';
@@ -175,6 +176,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                     itemBuilder: (context, index) {
                       return ScaleTapper(
                         onTap: () {
+                          HapticFeedback.mediumImpact();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -240,7 +242,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                                       CustomText(
                                         text:
                                             "${widget.categoryModel?.place[index]['name']}",
-                                        fontFamily: "Lato",
+                                        fontFamily: "SF-Pro",
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
                                         maxLine: 1,
@@ -260,7 +262,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                                             child: CustomText(
                                               text:
                                                   "${widget.categoryModel?.place[index]['location']}",
-                                              fontFamily: "Lato",
+                                              fontFamily: "SF-Pro",
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                               color: Colors.grey,
@@ -285,14 +287,14 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                                               CustomText(
                                                 text:
                                                     "${widget.categoryModel?.place[index]['reviewCount']}",
-                                                fontFamily: "Lato",
+                                                fontFamily: "SF-Pro",
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                               ),
                                               const SizedBox(width: 3),
                                               CustomText(
                                                 text: "Reviews",
-                                                fontFamily: "Lato",
+                                                fontFamily: "SF-Pro",
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -313,7 +315,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                                                         false)
                                                     ? "isOpen"
                                                     : "isClosed",
-                                                fontFamily: "Lato",
+                                                fontFamily: "SF-Pro",
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -330,7 +332,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                                               CustomText(
                                                 text:
                                                     "${widget.categoryModel?.place[index]['distance'] ?? ""} km",
-                                                fontFamily: "Lato",
+                                                fontFamily: "SF-Pro",
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                               ),

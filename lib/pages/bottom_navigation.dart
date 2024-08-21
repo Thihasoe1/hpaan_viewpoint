@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hpaan_viewpoint/pages/favourite_page.dart';
 import 'package:hpaan_viewpoint/pages/home_page/home_page.dart';
 import 'package:hpaan_viewpoint/pages/profile_page/profile_page.dart';
@@ -17,7 +18,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   final List<dynamic> _page = [
     const HomePage(),
-    SearchPage(),
+    const SearchPage(),
     const FavouritePage(),
     const ProfilePage(),
   ];
@@ -27,57 +28,89 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox(
-        //color: Colors.blueAccent,
         child: _page[_activePage],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        elevation: 0.4,
-        selectedItemColor: Colors.teal,
-        selectedIconTheme: const IconThemeData(size: 25),
-        selectedLabelStyle: const TextStyle(
-          fontFamily: "SF-Pro",
-          fontSize: 12,
-        ),
-        unselectedItemColor: Colors.grey.shade400,
-        currentIndex: _activePage,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_rounded,
-              size: 26,
-            ),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.search,
-              size: 24,
-            ),
-            label: "Search",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite_outline_rounded,
-              size: 24,
-            ),
-            label: "Favourite",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.account_circle_rounded,
-              size: 26,
-            ),
-            label: "Profile",
-          ),
-        ],
-        onTap: (value) {
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          HapticFeedback.mediumImpact();
           setState(() {
-            _activePage = value;
+            _activePage = index;
           });
         },
+        indicatorColor: Colors.teal.shade300,
+        selectedIndex: _activePage,
+
+        destinations: const [
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home_rounded,color: Colors.white,),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.search_outlined,color: Colors.white,),
+            icon: Icon(Icons.search_rounded),
+            label: 'Search',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.favorite_outline_rounded,color: Colors.white,),
+            icon: Icon(Icons.favorite_rounded),
+            label: 'Favourite',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.account_circle_outlined,color: Colors.white,),
+            icon: Icon(Icons.account_circle_rounded),
+            label: 'Profile',
+          ),
+        ],
       ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0.4,
+      //   selectedItemColor: Colors.teal,
+      //   selectedIconTheme: const IconThemeData(size: 25),
+      //   selectedLabelStyle: const TextStyle(
+      //     fontFamily: "SF-Pro",
+      //     fontSize: 12,
+      //   ),
+      //   unselectedItemColor: Colors.grey.shade400,
+      //   currentIndex: _activePage,
+      //   type: BottomNavigationBarType.fixed,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.home_rounded,
+      //         size: 26,
+      //       ),
+      //       label: "Home",
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         CupertinoIcons.search,
+      //         size: 24,
+      //       ),
+      //       label: "Search",
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.favorite_outline_rounded,
+      //         size: 24,
+      //       ),
+      //       label: "Favourite",
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.account_circle_rounded,
+      //         size: 26,
+      //       ),
+      //       label: "Profile",
+      //     ),
+      //   ],
+      //   onTap: (value) {
+      //     setState(() {
+      //       _activePage = value;
+      //     });
+      //   },
+      // ),
     );
   }
 }
