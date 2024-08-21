@@ -48,15 +48,15 @@ class HomePageAppBar extends StatelessWidget {
                     child: Row(
                       children: [
                         const Icon(
-                          Icons.location_pin,
-                          size: 20,
+                          Icons.location_on_rounded,
+                          size: 18,
                           color: Colors.white,
                         ),
                         const SizedBox(
                           width: 5,
                         ),
                         CustomText(
-                          text: "My Location",
+                          text: "Hpa-an",
                           fontFamily: "SF-Pro",
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -72,6 +72,8 @@ class HomePageAppBar extends StatelessWidget {
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
+                    padding: const EdgeInsets.all(2),
+                    child: Image.asset("assets/images/avatar.png"),
                   ),
                 ],
               ),

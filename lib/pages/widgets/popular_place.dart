@@ -9,7 +9,7 @@ class PopularPlaces extends StatelessWidget {
     required this.popularPlace,
   });
 
-  final List<PopularPlaceData> popularPlace;
+  final List<dynamic> popularPlace;
 
   @override
   Widget build(BuildContext context) {

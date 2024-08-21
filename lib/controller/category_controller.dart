@@ -5,9 +5,8 @@ import 'package:hpaan_viewpoint/model/categories_model.dart';
 class CategoryController extends GetxController {
   var isLoading = false;
 
-
-
   var categoryList = <Category>[];
+  var popularPlaces = <dynamic>[].obs;
 
   Future<void> getCategoryList() async {
     try {
@@ -29,12 +28,17 @@ class CategoryController extends GetxController {
           ),
         );
       }
+      var popularPlacesList = categoryList
+          .expand((category) => category.place)
+          .where((pp) => (double.tryParse(pp['rating']) ?? 0.0) >= 4.5)
+          .toList();
+      print("popular places ===> ${popularPlacesList.length}");
+      popularPlaces.value = popularPlacesList;
     } catch (e) {
       Get.snackbar("Error", e.toString());
-    }finally{
+    } finally {
       isLoading = false;
       update();
     }
-
   }
 }

@@ -1,9 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hpaan_viewpoint/pages/favourite_page.dart';
+import 'package:hpaan_viewpoint/pages/favourite_page/favourite_page.dart';
 import 'package:hpaan_viewpoint/pages/home_page/home_page.dart';
 import 'package:hpaan_viewpoint/pages/profile_page/profile_page.dart';
 import 'package:hpaan_viewpoint/pages/search_page/search_page.dart';
@@ -40,25 +38,36 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
         indicatorColor: Colors.teal.shade300,
         selectedIndex: _activePage,
-
         destinations: const [
           NavigationDestination(
-            selectedIcon: Icon(Icons.home_rounded,color: Colors.white,),
-            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(
+              Icons.home_rounded,
+              color: Colors.white,
+            ),
+            icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.search_outlined,color: Colors.white,),
+            selectedIcon: Icon(
+              Icons.search_outlined,
+              color: Colors.white,
+            ),
             icon: Icon(Icons.search_rounded),
             label: 'Search',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.favorite_rounded,color: Colors.white,),
+            selectedIcon: Icon(
+              Icons.favorite_rounded,
+              color: Colors.white,
+            ),
             icon: Icon(Icons.favorite_outline_rounded),
             label: 'Favourite',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.account_circle_rounded,color: Colors.white,),
+            selectedIcon: Icon(
+              Icons.account_circle_rounded,
+              color: Colors.white,
+            ),
             icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
           ),

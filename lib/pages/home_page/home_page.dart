@@ -8,6 +8,7 @@ import 'package:hpaan_viewpoint/components/custom_shimmer.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/controller/category_controller.dart';
 import 'package:hpaan_viewpoint/controller/popular_places_controller.dart';
+import 'package:hpaan_viewpoint/pages/card_detail.dart';
 import 'package:hpaan_viewpoint/pages/category_detail_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/category_card.dart';
 import 'package:hpaan_viewpoint/pages/widgets/fade_animation.dart';
@@ -64,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                 init: CategoryController(),
                 builder: (GetxController controller) {
                   debugPrint(
-                      "category list ==> ${categoryController.categoryList}");
+                      "category list ==> ${categoryController.popularPlaces}");
                   return categoryController.isLoading
                       ? GridView.builder(
                           padding: const EdgeInsets.only(
@@ -147,14 +148,14 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              GetBuilder<PopularPlacesController>(
-                builder: (controller) {
-                  //print("controller =========>${popularPlacesController.popularPlaceList.first.data.first}");
-                  return popularPlacesController.isLoading
+              GetBuilder<CategoryController>(
+                init: CategoryController(),
+                builder: (GetxController controller) {
+                  return categoryController.isLoading
                       ? SizedBox(
                           height: 180,
                           child: ListView.builder(
-                            itemCount: 4,
+                            itemCount: categoryController.popularPlaces.length,
                             physics: const BouncingScrollPhysics(
                               decelerationRate: ScrollDecelerationRate.fast,
                             ),
@@ -173,15 +174,7 @@ class _HomePageState extends State<HomePage> {
                                       width: 170,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(13),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Colors.white,
-                                            offset:  Offset(0, 2),
-                                            spreadRadius: 3,
-                                            blurRadius: 4,
-                                          ),
-                                        ],
+                                        borderRadius: BorderRadius.circular(14),
                                       ),
                                       child: Column(
                                         crossAxisAlignment:
@@ -197,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
-                                                    BorderRadius.circular(12),
+                                                    BorderRadius.circular(14),
                                               ),
                                             ),
                                           ),
@@ -249,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                         padding: const EdgeInsets.all(6),
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Colors.black12,
+                                          color: Colors.white,
                                         ),
                                         child: const Center(
                                           child: Icon(
@@ -266,12 +259,281 @@ class _HomePageState extends State<HomePage> {
                             },
                           ),
                         )
-                      : PopularPlaces(
-                          popularPlace:
-                              popularPlacesController.popularPlaceList,
+                      : SizedBox(
+                          height: 215,
+                          child: ListView.builder(
+                            itemCount: categoryController.popularPlaces.length,
+                            physics: const BouncingScrollPhysics(
+                              decelerationRate: ScrollDecelerationRate.fast,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 10,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return ScaleTapper(
+                                onTap: () {
+                                  HapticFeedback.mediumImpact();
+                                  Get.to(
+                                    CardDetail(
+                                      singlePlace: categoryController
+                                          .popularPlaces[index],
+                                    ),
+                                  );
+                                },
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 10),
+                                      width: 180,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(13),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.shade100,
+                                            offset: const Offset(0, 2),
+                                            spreadRadius: 3,
+                                            blurRadius: 4,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                top: 8,
+                                                left: 8,
+                                                right: 8,
+                                              ),
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                color: Colors.teal,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.asset(
+                                                  "${categoryController.popularPlaces[index]['imageUrl']}",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 8,
+                                              top: 5,
+                                              right: 6,
+                                            ),
+                                            child: CustomText(
+                                              text:
+                                                  "${categoryController.popularPlaces[index]['name']}",
+                                              fontFamily: "Lato",
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              maxLine: 2,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 8,
+                                              top: 5,
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                const Icon(
+                                                  Icons.location_on_rounded,
+                                                  size: 15,
+                                                  color: Colors.teal,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Expanded(
+                                                  child: CustomText(
+                                                    text:
+                                                        "${categoryController.popularPlaces[index]['location']}",
+                                                    fontFamily: "Lato",
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    maxLine: 1,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 16,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 20,
+                                      top: 10,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(6),
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.black12,
+                                        ),
+                                        child: const Center(
+                                          child: Icon(
+                                            Icons.favorite_rounded,
+                                            color: Colors.white,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         );
+                  // : PopularPlaces(
+                  //     popularPlace: categoryController.popularPlaces,
+                  //   );
                 },
               ),
+              // GetBuilder<PopularPlacesController>(
+              //   builder: (controller) {
+              //     //print("controller =========>${popularPlacesController.popularPlaceList.first.data.first}");
+              //     return popularPlacesController.isLoading
+              //         ? SizedBox(
+              //             height: 180,
+              //             child: ListView.builder(
+              //               itemCount: 4,
+              //               physics: const BouncingScrollPhysics(
+              //                 decelerationRate: ScrollDecelerationRate.fast,
+              //               ),
+              //               padding: const EdgeInsets.symmetric(
+              //                 horizontal: 16,
+              //                 vertical: 10,
+              //               ),
+              //               scrollDirection: Axis.horizontal,
+              //               shrinkWrap: true,
+              //               itemBuilder: (context, index) {
+              //                 return CustomShimmer(
+              //                   child: Stack(
+              //                     children: [
+              //                       Container(
+              //                         margin: const EdgeInsets.only(right: 10),
+              //                         width: 170,
+              //                         decoration: BoxDecoration(
+              //                           color: Colors.white,
+              //                           borderRadius: BorderRadius.circular(13),
+              //                           boxShadow: const [
+              //                             BoxShadow(
+              //                               color: Colors.white,
+              //                               offset:  Offset(0, 2),
+              //                               spreadRadius: 3,
+              //                               blurRadius: 4,
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         child: Column(
+              //                           crossAxisAlignment:
+              //                               CrossAxisAlignment.start,
+              //                           children: [
+              //                             Expanded(
+              //                               child: Container(
+              //                                 margin: const EdgeInsets.only(
+              //                                   top: 8,
+              //                                   left: 8,
+              //                                   right: 8,
+              //                                 ),
+              //                                 decoration: BoxDecoration(
+              //                                   color: Colors.white,
+              //                                   borderRadius:
+              //                                       BorderRadius.circular(12),
+              //                                 ),
+              //                               ),
+              //                             ),
+              //                             Padding(
+              //                               padding: const EdgeInsets.only(
+              //                                 left: 8,
+              //                                 top: 5,
+              //                                 right: 6,
+              //                               ),
+              //                               child: Container(
+              //                                 color: Colors.white,
+              //                                 height: 10,
+              //                               ),
+              //                             ),
+              //                             Padding(
+              //                               padding: const EdgeInsets.only(
+              //                                 left: 8,
+              //                                 top: 5,
+              //                               ),
+              //                               child: Row(
+              //                                 crossAxisAlignment:
+              //                                     CrossAxisAlignment.center,
+              //                                 children: [
+              //                                   const Icon(
+              //                                     Icons.location_on_rounded,
+              //                                     size: 15,
+              //                                     color: Color(0xFF252525),
+              //                                   ),
+              //                                   const SizedBox(
+              //                                     width: 5,
+              //                                   ),
+              //                                   Container(
+              //                                     height: 10,
+              //                                     color: Colors.white,
+              //                                   ),
+              //                                 ],
+              //                               ),
+              //                             ),
+              //                             const SizedBox(
+              //                               height: 6,
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                       Positioned(
+              //                         right: 20,
+              //                         top: 10,
+              //                         child: Container(
+              //                           padding: const EdgeInsets.all(6),
+              //                           decoration: const BoxDecoration(
+              //                             shape: BoxShape.circle,
+              //                             color: Colors.black12,
+              //                           ),
+              //                           child: const Center(
+              //                             child: Icon(
+              //                               Icons.favorite_rounded,
+              //                               color: Colors.white,
+              //                               size: 18,
+              //                             ),
+              //                           ),
+              //                         ),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 );
+              //               },
+              //             ),
+              //           )
+              //         : PopularPlaces(
+              //             popularPlace:
+              //                 popularPlacesController.popularPlaceList,
+              //           );
+              //   },
+              // ),
             ],
           ),
         ),

@@ -80,7 +80,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
           elevation: 0.5,
           title: CustomText(
             text: widget.categoryModel?.name ?? "",
-            fontFamily: "Lato",
+            fontFamily: "SF-Pro",
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -99,8 +99,9 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                   bottom: TabBar(
                     physics: const NeverScrollableScrollPhysics(),
                     indicatorSize: TabBarIndicatorSize.tab,
+                    dividerColor: Colors.grey.shade200,
                     labelColor: Colors.teal,
-                    unselectedLabelColor: Colors.grey,
+                    unselectedLabelColor: Colors.grey.shade400,
                     labelStyle: const TextStyle(
                       fontFamily: 'SF-Pro',
                       fontSize: 14,
@@ -113,7 +114,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                         children: [
                           const Icon(
                             Icons.list_rounded,
-                            size: 22,
+                            size: 18,
                           ),
                           const SizedBox(width: 10),
                           const Tab(
@@ -131,7 +132,8 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                             ),
                             child: Center(
                               child: CustomText(
-                                text: "2",
+                                text:
+                                    "${widget.categoryModel?.place.length ?? 0}",
                                 fontFamily: "Lato",
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
@@ -146,7 +148,7 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                         children: [
                           Icon(
                             Icons.map_rounded,
-                            size: 22,
+                            size: 18,
                           ),
                           SizedBox(width: 10),
                           Tab(
@@ -321,23 +323,25 @@ class _CategoryDeailBodyState extends State<CategoryDeailBody> {
                                               ),
                                             ],
                                           ),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.location_on_rounded,
-                                                size: 15,
-                                                color: Colors.teal,
-                                              ),
-                                              const SizedBox(width: 5),
-                                              CustomText(
-                                                text:
-                                                    "${widget.categoryModel?.place[index]['distance'] ?? ""} km",
-                                                fontFamily: "SF-Pro",
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ],
-                                          ),
+                                          const SizedBox(),
+                                          const SizedBox(),
+                                          // Row(
+                                          //   children: [
+                                          //     const Icon(
+                                          //       Icons.location_on_rounded,
+                                          //       size: 15,
+                                          //       color: Colors.teal,
+                                          //     ),
+                                          //     const SizedBox(width: 5),
+                                          //     CustomText(
+                                          //       text:
+                                          //           "${widget.categoryModel?.place[index]['distance'] ?? ""} km",
+                                          //       fontFamily: "SF-Pro",
+                                          //       fontSize: 12,
+                                          //       fontWeight: FontWeight.w400,
+                                          //     ),
+                                          //   ],
+                                          // ),
                                         ],
                                       ),
                                     ],
