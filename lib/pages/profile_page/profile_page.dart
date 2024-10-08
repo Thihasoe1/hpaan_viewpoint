@@ -7,6 +7,8 @@ import 'package:hpaan_viewpoint/const/const.dart';
 import 'package:hpaan_viewpoint/pages/auth/login_page.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 
+import '../../services/translation_service.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -27,6 +29,20 @@ class _ProfileBodyState extends State<ProfileBody> {
   String userName = "";
 
   final userCollection = FirebaseFirestore.instance.collection("Users");
+  String? selectedLanguage = 'English';
+
+  @override
+  void initState() {
+    super.initState();
+    selectedLanguage = getSelectedLanguageFromLocale(Get.locale);
+  }
+
+  String getSelectedLanguageFromLocale(Locale? locale) {
+    if (locale == const Locale('my', 'MM')) {
+      return 'Myanmar';
+    }
+    return 'English';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +53,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: CustomText(
-            text: "Profile",
+            text: "Profile".tr,
             fontFamily: "SF-Pro",
             fontSize: 20,
             fontWeight: FontWeight.w500,
@@ -97,11 +113,56 @@ class _ProfileBodyState extends State<ProfileBody> {
       backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
       appBar: AppBar(
         title: CustomText(
-          text: "Profile",
+          text: "profile".tr,
           fontFamily: "SF-Pro",
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: FontWeight.w500,
         ),
+        actions: [
+          DropdownButton<String>(
+            value: selectedLanguage,
+            padding: EdgeInsets.zero,
+            onChanged: (String? newValue) {
+              setState(() {
+                selectedLanguage = newValue;
+                TranslationService.changeLocale(newValue!);
+              });
+            },
+            items: TranslationService.langs.map((String language) {
+              return DropdownMenuItem<String>(
+                value: language,
+                child: Row(
+                  children: [
+                    //const Icon(Icons.translate, size: 18,color: Colors.blue,),
+                    SizedBox(
+                      width: 20,
+                      height: 10,
+                      child: Image.asset(
+                        TranslationService.getFlagImage(language),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    CustomText(
+                      text: language,
+                      fontFamily: "SF-Pro",
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blue,
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+            icon: const Icon(
+              Icons.arrow_drop_down_rounded,
+              size: 24,
+              color: Colors.blue,
+            ),
+            iconSize: 42,
+            underline: const SizedBox(),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: StreamBuilder<DocumentSnapshot>(
@@ -111,8 +172,6 @@ class _ProfileBodyState extends State<ProfileBody> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-
-
                 final userData = snapshot.data?.data() as Map<String, dynamic>;
                 TextEditingController nameController =
                     TextEditingController(text: userData['name']);

@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:hpaan_viewpoint/pages/favourite_page/favourite_page.dart';
 import 'package:hpaan_viewpoint/pages/home_page/home_page.dart';
 import 'package:hpaan_viewpoint/pages/profile_page/profile_page.dart';
@@ -36,40 +37,40 @@ class _BottomNavBarState extends State<BottomNavBar> {
             _activePage = index;
           });
         },
-        indicatorColor: Colors.teal.shade300,
+        indicatorColor: Colors.teal.shade500,
         selectedIndex: _activePage,
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            selectedIcon: Icon(
+            selectedIcon: const Icon(
               Icons.home_rounded,
               color: Colors.white,
             ),
-            icon: Icon(Icons.home_rounded),
-            label: 'Home',
+            icon: const Icon(Icons.home_rounded),
+            label: 'home'.tr,
           ),
           NavigationDestination(
-            selectedIcon: Icon(
+            selectedIcon: const Icon(
               Icons.search_outlined,
               color: Colors.white,
             ),
-            icon: Icon(Icons.search_rounded),
-            label: 'Search',
+            icon: const Icon(Icons.search_rounded),
+            label: 'search'.tr,
           ),
           NavigationDestination(
-            selectedIcon: Icon(
+            selectedIcon: const Icon(
               Icons.favorite_rounded,
               color: Colors.white,
             ),
-            icon: Icon(Icons.favorite_outline_rounded),
-            label: 'Favourite',
+            icon: const Icon(Icons.favorite_outline_rounded),
+            label: 'favourite'.tr,
           ),
           NavigationDestination(
-            selectedIcon: Icon(
+            selectedIcon: const Icon(
               Icons.account_circle_rounded,
               color: Colors.white,
             ),
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Profile',
+            icon: const Icon(Icons.account_circle_outlined),
+            label: 'profile'.tr,
           ),
         ],
       ),

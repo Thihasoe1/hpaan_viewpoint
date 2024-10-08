@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
     return CustomFadeInAnimation(
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
+        //backgroundColor: const Color(0xFFF1F2F4),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

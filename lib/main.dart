@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/binding/controller_binding.dart';
 import 'package:hpaan_viewpoint/const/const.dart';
 import 'package:hpaan_viewpoint/controller/auth_controller.dart';
+import 'package:hpaan_viewpoint/services/translation_service.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await TranslationService.loadSavedLocale();
   await firebaseInitialization.then((value) {
     Get.put(AuthController());
   });
@@ -15,6 +17,7 @@ Future main() async {
     androidProvider: AndroidProvider.debug, // or AndroidProvider.safetyNet
     appleProvider: AppleProvider.appAttest, // or AppleProvider.deviceCheck
   );
+
   runApp(const MyApp());
 }
 
@@ -26,6 +29,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialBinding: ControllerBinding(),
+      translations: TranslationService(),
+      locale: TranslationService.locale,
+      fallbackLocale: TranslationService.fallbackLocale,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey.shade200),
         useMaterial3: true,
