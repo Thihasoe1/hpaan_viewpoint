@@ -23,7 +23,7 @@ class CommentController extends GetxController {
     }).toList();
   }
 
-  void addComment(String postId, String commentText) async {
+  void addComment(String postId, String commentText, double rating) async {
     var currentUser = FirebaseAuth.instance.currentUser;
 
     try {
@@ -36,6 +36,7 @@ class CommentController extends GetxController {
             .add({
           'userId': currentUser.uid,
           'username': currentUser.displayName,
+          'rating': rating,
           'commentText': commentText,
           'timestamp': FieldValue.serverTimestamp(),
         });

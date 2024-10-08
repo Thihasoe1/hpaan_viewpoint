@@ -12,6 +12,7 @@ class Place {
   final String distance;
   final String lat;
   final String long;
+  final List<dynamic> imageList;
 
   Place({
     required this.id,
@@ -25,6 +26,7 @@ class Place {
     required this.distance,
     required this.lat,
     required this.long,
+    required this.imageList,
   });
 
   factory Place.fromDocumentSnapshot(DocumentSnapshot doc) {
@@ -44,6 +46,7 @@ class Place {
       distance: (json['distance']),
       lat: (json['lat']),
       long: (json['long']), // Ensure double type
+      imageList: (json['imageList']),
     );
   }
 
@@ -60,6 +63,7 @@ class Place {
       'distance': distance,
       'lat': lat,
       'long': long,
+      'imageList': imageList,
     };
   }
 }

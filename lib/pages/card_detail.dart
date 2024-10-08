@@ -3,16 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:hpaan_viewpoint/components/custom_shimmer.dart';
 import 'package:hpaan_viewpoint/components/custom_text.dart';
 import 'package:hpaan_viewpoint/controller/comment_controller.dart';
 import 'package:hpaan_viewpoint/controller/profile_controller.dart';
 import 'package:hpaan_viewpoint/pages/tracking_location_page.dart';
+import 'package:hpaan_viewpoint/pages/widgets/photo_view_page.dart';
+import 'package:hpaan_viewpoint/pages/widgets/rating_widget.dart';
 import 'package:hpaan_viewpoint/pages/widgets/scale_tapper.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CardDetail extends StatefulWidget {
   const CardDetail({
@@ -35,6 +39,8 @@ class _CardDetailState extends State<CardDetail> {
 
   final currentUser = FirebaseAuth.instance.currentUser;
 
+  double ratingResult = 2.0;
+
   @override
   void initState() {
     super.initState();
@@ -55,25 +61,6 @@ class _CardDetailState extends State<CardDetail> {
       return DateFormat('dd/MM/yyyy').format(dateTime);
     }
 
-    // final _controller = SuperTooltipController();
-    // final _secController = SuperTooltipController();
-
-    // Future<bool> _willPopCallback() async {
-    //   if (_controller.isVisible) {
-    //     await _controller.hideTooltip();
-    //     return false;
-    //   }
-    //   return true;
-    // }
-
-    // Future<bool> _secWillPopCallback() async {
-    //   if (_secController.isVisible) {
-    //     await _secController.hideTooltip();
-    //     return false;
-    //   }
-    //   return true;
-    // }
-
     return Scaffold(
       backgroundColor: const Color.fromRGBO(250, 250, 250, 1),
       body: RefreshIndicator(
@@ -86,50 +73,95 @@ class _CardDetailState extends State<CardDetail> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: double.infinity,
-                    child: Image.asset(
-                      "${widget.singlePlace['imageUrl']}",
-                      fit: BoxFit.cover,
+                  InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PhotoViewPage(
+                          placeImage: "${widget.singlePlace['imageUrl']}",
+                        ),
+                      ),
+                    ),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      width: double.infinity,
+                      child: Image.asset(
+                        "${widget.singlePlace['imageUrl']}",
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  //   child: CustomText(
-                  //     text: "Photos",
-                  //     fontFamily: "SF-Pro",
-                  //     fontSize: 15,
-                  //     fontWeight: FontWeight.w600,
-                  //   ),
-                  // ),
+
                   SizedBox(
                     height: 100,
                     child: ListView.builder(
                       padding: const EdgeInsets.only(
-                        left: 16,
+                        left: 12,
                         right: 6,
                       ),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: 6,
+                      itemCount: widget.singlePlace['imageList'].length ?? 1,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.only(
-                            left: 0,
-                            right: 10,
-                            top: 15,
-                            bottom: 15,
+                        return ScaleTapper(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => PhotoViewPage(
+                                placeImage: widget.singlePlace['imageList']
+                                    [index],
+                              ),
+                            ),
                           ),
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey.shade200,
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              left: 0,
+                              right: 10,
+                              top: 12,
+                              bottom: 15,
+                            ),
+                            width: 90,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.grey.shade200,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                "${widget.singlePlace['imageList'][index]}",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         );
                       },
                     ),
                   ),
+                  // SizedBox(height: 100,child: PhotoViewGallery.builder(
+                  //   scrollPhysics: const BouncingScrollPhysics(),
+                  //   builder: (BuildContext context, int index) {
+                  //     return PhotoViewGalleryPageOptions(
+                  //       imageProvider: AssetImage("${widget.singlePlace['imageList'][index]}"),
+                  //       initialScale: PhotoViewComputedScale.contained * 0.8,
+                  //       heroAttributes: const PhotoViewHeroAttributes(tag: "gg"),
+                  //     );
+                  //   },
+                  //   itemCount: widget.singlePlace['imageList'].length,
+                  //   loadingBuilder: (context, event) => Center(
+                  //     child: Container(
+                  //       width: 20.0,
+                  //       height: 20.0,
+                  //       child: CircularProgressIndicator(
+                  //         value: event == null
+                  //             ? 0
+                  //             : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   //backgroundDecoration: widget.backgroundDecoration,
+                  //   //pageController: widget.pageController,
+                  //   //onPageChanged: onPageChanged,
+                  // ),),
                   const SizedBox(height: 3),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -276,7 +308,6 @@ class _CardDetailState extends State<CardDetail> {
                     ),
                   ),
                   // const SizedBox(height: 5),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -303,75 +334,114 @@ class _CardDetailState extends State<CardDetail> {
                                 }
                               : () {
                                   Get.defaultDialog(
-                                    titlePadding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
+                                    titlePadding: const EdgeInsets.only(
+                                      top: 0,
+                                      bottom: 5,
+                                    ),
                                     contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 20,
-                                      vertical: 20,
+                                      vertical: 0,
                                     ),
                                     title: "",
+                                    titleStyle: const TextStyle(
+                                        fontSize: 18, fontFamily: 'SF-Pro'),
                                     content: MediaQuery(
                                       data: const MediaQueryData(
                                         textScaler: TextScaler.linear(1),
                                       ),
-                                      child: TextFormField(
-                                        //key: widget.formKey,
-                                        maxLines: 4,
-                                        controller: reviewController,
-                                        cursorColor: Colors.teal,
+                                      child: Column(
+                                        children: [
+                                          RatingBar.builder(
+                                            initialRating: ratingResult,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: true,
+                                            itemCount: 5,
+                                            itemSize: 35,
+                                            itemPadding:
+                                                const EdgeInsets.symmetric(
+                                              horizontal: 7,
+                                            ),
+                                            itemBuilder: (context, _) =>
+                                                const Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                              size: 10,
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              setState(() {
+                                                ratingResult = rating;
+                                              });
+                                            },
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10.0),
+                                            child: TextFormField(
+                                              //key: widget.formKey,
+                                              maxLines: 4,
+                                              controller: reviewController,
+                                              cursorColor: Colors.teal,
 
-                                        style: const TextStyle(
-                                          fontFamily: "SF-Pro",
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,
-                                        ),
-                                        //validator: widget.validator,
-                                        //obscureText: !_isVisible && widget.isPassword,
-                                        decoration: InputDecoration(
-                                          hintText: "Write your suggestions",
-                                          hintStyle: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'SF-Pro',
-                                            color: Colors.grey.shade400,
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            borderSide: BorderSide(
-                                              color:
-                                                  Colors.grey.withOpacity(0.8),
+                                              style: const TextStyle(
+                                                fontFamily: "SF-Pro",
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14,
+                                              ),
+                                              //validator: widget.validator,
+                                              //obscureText: !_isVisible && widget.isPassword,
+                                              decoration: InputDecoration(
+                                                hintText:
+                                                    "Write your suggestions",
+                                                hintStyle: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: 'SF-Pro',
+                                                  color: Colors.grey.shade400,
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  borderSide: BorderSide(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.8),
+                                                  ),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  borderSide: const BorderSide(
+                                                    color: Colors.teal,
+                                                    width: 1.4,
+                                                  ),
+                                                ),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  borderSide: const BorderSide(
+                                                    width: 1.4,
+                                                  ),
+                                                ),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical: 18,
+                                                  horizontal: 10,
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  borderSide: const BorderSide(
+                                                    color: Colors.red,
+                                                    width: 1.4,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            borderSide: const BorderSide(
-                                              color: Colors.teal,
-                                              width: 1.4,
-                                            ),
-                                          ),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            borderSide: const BorderSide(
-                                              width: 1.4,
-                                            ),
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                            vertical: 18,
-                                            horizontal: 10,
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            borderSide: const BorderSide(
-                                              color: Colors.red,
-                                              width: 1.4,
-                                            ),
-                                          ),
-                                        ),
+                                        ],
                                       ),
                                     ),
                                     actions: [
@@ -381,10 +451,12 @@ class _CardDetailState extends State<CardDetail> {
                                         },
                                         child: Container(
                                           height: 44,
+                                          margin:
+                                              const EdgeInsets.only(bottom: 12),
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.23,
+                                              0.275,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -403,7 +475,6 @@ class _CardDetailState extends State<CardDetail> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 8),
                                       ScaleTapper(
                                         onTap: () {
                                           if (reviewController
@@ -411,6 +482,7 @@ class _CardDetailState extends State<CardDetail> {
                                             commentController.addComment(
                                               widget.singlePlace['placeId'],
                                               reviewController.text,
+                                              ratingResult,
                                             );
                                             reviewController.clear();
                                             Navigator.pop(context);
@@ -418,10 +490,12 @@ class _CardDetailState extends State<CardDetail> {
                                         },
                                         child: Container(
                                           height: 45,
+                                          margin:
+                                              const EdgeInsets.only(bottom: 12),
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.23,
+                                              0.275,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -564,6 +638,13 @@ class _CardDetailState extends State<CardDetail> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            // CustomText(
+                                            //   text: "${commentController.comments[index]['rating']}",
+                                            //   fontFamily: "SF-Pro",
+                                            //   fontSize: 12,
+                                            //   fontWeight: FontWeight.w400,
+                                            // ),
+                                            CustomRatingWidget(rating: double.tryParse("${commentController.comments[index]['rating']}") ?? 0.0),
                                             Row(
                                               children: [
                                                 CustomText(

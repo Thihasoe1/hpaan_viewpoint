@@ -120,6 +120,10 @@ class _ProfileBodyState extends State<ProfileBody> {
         ),
         actions: [
           DropdownButton<String>(
+            borderRadius: BorderRadius.circular(8),
+            elevation: 1,
+            isDense: true,
+            dropdownColor: Colors.white,
             value: selectedLanguage,
             padding: EdgeInsets.zero,
             onChanged: (String? newValue) {
@@ -129,20 +133,21 @@ class _ProfileBodyState extends State<ProfileBody> {
               });
             },
             items: TranslationService.langs.map((String language) {
-              return DropdownMenuItem<String>(
+              return DropdownMenuItem<String>( 
                 value: language,
                 child: Row(
                   children: [
                     //const Icon(Icons.translate, size: 18,color: Colors.blue,),
                     SizedBox(
-                      width: 20,
-                      height: 10,
+                      width: 23,
+                      height: 14,
                       child: Image.asset(
                         TranslationService.getFlagImage(language),
                         fit: BoxFit.cover,
                       ),
                     ),
                     const SizedBox(width: 6),
+
                     CustomText(
                       text: language,
                       fontFamily: "SF-Pro",
@@ -159,7 +164,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               size: 24,
               color: Colors.blue,
             ),
-            iconSize: 42,
+            iconSize: 24,
             underline: const SizedBox(),
           ),
         ],
