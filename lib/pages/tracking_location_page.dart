@@ -28,7 +28,7 @@ class _TrackingLocationPageState extends State<TrackingLocationPage>
     with WidgetsBindingObserver {
   MapController controller = MapController();
 
-  LatLng _currentPosition = const LatLng(16.8076, 96.1544);
+  LatLng _currentPosition = const LatLng(16.89017, 97.63478);
   bool _loading = true;
   late LatLng _destination;
   List<LatLng> _routePoints = [];
@@ -91,7 +91,7 @@ class _TrackingLocationPageState extends State<TrackingLocationPage>
       locationSettings: locationSettings,
     ).listen((Position position) {
       setState(() {
-        _destination = const LatLng(16.8455, 96.1190);
+        _destination = LatLng(widget.lat, widget.long);
         _currentPosition = LatLng(position.latitude, position.longitude);
         _loading = false;
       });
@@ -160,13 +160,13 @@ class _TrackingLocationPageState extends State<TrackingLocationPage>
                       ),
                     ),
                   ),
-                  const Marker(
+                  Marker(
                     alignment: Alignment.center,
                     width: 80.0,
                     height: 80.0,
-                    //point: LatLng(widget.lat, widget.long),
-                    point: LatLng(16.8455, 96.1190),
-                    child: SizedBox(
+                    point: LatLng(widget.lat, widget.long),
+                    //point: LatLng(16.8455, 96.1190),
+                    child: const SizedBox(
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Icon(
